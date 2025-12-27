@@ -1,6 +1,8 @@
-# Hexo 生成的静态文件（不要提交）
+# Hexo 生成的静态文件
 /public
 /.deploy_git
+/db.json                # 搜索插件数据库（如 hexo-generator-searchdb）
+/cache                  # Hexo 缓存目录（某些插件会生成）
 
 # Node.js 依赖（由 package-lock.json / yarn.lock 管理即可）
 /node_modules
@@ -9,6 +11,7 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+.lerna-debug.log*
 
 # 编辑器/IDE 临时文件
 .DS_Store
@@ -17,13 +20,27 @@ Thumbs.db
 .idea/
 *.swp
 *.swo
+*.sublime-project
+*.sublime-workspace
 
 # 环境变量文件
 .env
 .env.local
+.env.development.local
+.env.test.local
+.env.production.local
 
 # macOS 资源派生文件
 ._*
 
-# Windows 缩略图缓存
+# Windows 特有文件
 ehthumbs_vista.db
+Desktop.ini
+$RECYCLE.BIN/
+System Volume Information/
+
+# 其他临时/缓存文件
+*.tmp
+*.bak
+*.orig
+*.log
