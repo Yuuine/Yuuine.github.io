@@ -1,0 +1,5 @@
+# Windows (PowerShell)
+New-Item .nojekyll -ItemType File
+
+# macOS / Linux
+touch .nojekyll
