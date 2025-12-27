@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>404 - 页面未找到</title>
+    <meta name="keywords" content="Hexo,Ayer,404,Design"/>
+    <meta name="description" content="hexo theme ayer page 404."/>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #333;
+        }
+
+        .container {
+            text-align: center;
+            animation: fadeIn 1.5s ease-out;
+        }
+
+        h1 {
+            font-size: 6rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #2c3e50;
+            text-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            animation: float 4s infinite ease-in-out;
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            margin: 0.8rem 0;
+            color: #555;
+        }
+
+        .tip {
+            margin-top: 2rem;
+            font-size: 1.1rem;
+            color: #777;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-15px);
+            }
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 4.5rem;
+            }
+
+            h3 {
+                font-size: 1.3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>404</h1>
+    <h3>The page is missing. Please try again later.</h3>
+    <h3>页面丢失了，请尝试稍后重试呢~</h3>
+    <p class="tip">您可以返回博客首页或刷新页面</p>
+</div>
+</body>
+</html>

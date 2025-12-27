@@ -1,0 +1,105 @@
+<footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        <% if (theme.since && !isNaN(theme.since) && theme.since < date(new Date(), 'YYYY')) { %><%- theme.since%>-<% } %><%= date(new Date(), 'YYYY') %>
+        <i class="ri-heart-fill heart_icon"></i> <%= config.author || config.title %>
+      </li>
+    </ul>
+    <ul>
+      <li>
+        <% if (theme.pageFooter){ %>
+        <% var hexoLink = '<a href="https://hexo.io" target="_blank">Hexo</a>'; %>
+        <% var themeLink = '<a href="https://github.com/Shen-Yu/hexo-theme-ayer" target="_blank">Ayer</a>'; %>
+        <%- __('powered_by', hexoLink) %>
+        <span class="division">|</span>
+        <%- __('theme', themeLink) %>
+        <% } %>
+      </li>
+    </ul>
+    <ul>
+      <li>
+        <% if (theme.busuanzi && theme.busuanzi.enable){ %>
+        <%# "不蒜子统计" %>
+        <%- partial('post/busuanzi') %>
+        <% } %>
+      </li>
+    </ul>
+    <ul>
+      <% if (theme.icp&&theme.icp.enable){ %>
+        <li>
+          <a href="<%= theme.icp.url %>" target="_black" rel="nofollow"><%= theme.icp.text %></a>
+        </li>
+        <% } %>
+    </ul>
+    <ul>
+      <% if (theme.gongan&&theme.gongan.enable){ %>
+      <li>
+          <img src="<%= theme.gongan.img %>"></img>
+          <a href="<%= theme.gongan.url %>" target="_black" rel="nofollow"><%= theme.gongan.text %></a>
+      </li>
+        <% } %>
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        <% if (theme.cnzz&&theme.cnzz.enable){ %>
+        <script type="text/javascript" src='<%= theme.cnzz.url%>'></script>
+        <% } %>
+      </li>
+    </ul>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script>
+    mermaid.initialize({
+        startOnLoad: true,
+        theme: 'base',
+        themeVariables: {
+            // 线条与箭头颜色：明亮白色
+            lineColor: '#ffffff',
+
+            // 线条粗细（默认约 2px，这里加粗到 4px）
+            fontSize: '16px',                 // 整体文字稍大，提高可读性
+            textColor: '#ffffff',             // 节点内文字白色
+
+            // 节点背景与边框
+            primaryColor: '#1e88e5',           // 主节点深蓝背景（有一定亮度）
+            primaryTextColor: '#ffffff',
+            primaryBorderColor: '#bbdefb',    // 边框亮蓝
+
+            secondaryColor: '#43a047',        // 次节点绿色背景
+            secondaryTextColor: '#ffffff',
+            secondaryBorderColor: '#c8e6c9',
+
+            tertiaryColor: '#f5f5f5',         // 辅助节点浅灰
+
+            // 流程图专属：箭头与连接线加粗
+            edgeLabelBackground: '#212121',   // 标签背景保持暗色
+            signalColor: '#ffffff',           // 信号线颜色
+
+            flowchart: {
+                curve: 'basis'
+            }
+        },
+        securityLevel: 'loose'
+    });
+</script>
+
+<style>
+    .mermaid .flowchart-link,
+    .mermaid .edgePath path {
+        stroke: #ffffff !important;
+        stroke-width: 4px !important;   /* 加粗线条 */
+    }
+    .mermaid .marker {
+        fill: #ffffff !important;
+        stroke: #ffffff !important;
+    }
+    .mermaid text {
+        fill: #ffffff !important;
+    }
+</style>
