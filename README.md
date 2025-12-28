@@ -4,7 +4,7 @@
 
 ## 概述
 
-- **访问地址**: [https://Yuuine.github.io](https://Yuuine.github.io)
+- **地址**: [yuuine.cn](https://www.yuuine.cn)
 - **框架**: Hexo 8.1.1
 - **主题**: Ayer
 - **部署**: GitHub Pages
