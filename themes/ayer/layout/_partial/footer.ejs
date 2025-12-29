@@ -1,55 +1,58 @@
 <footer class="footer">
-  <div class="outer">
-    <ul>
-      <li>
-        Copyrights &copy;
-        <% if (theme.since && !isNaN(theme.since) && theme.since < date(new Date(), 'YYYY')) { %><%- theme.since%>-<% } %><%= date(new Date(), 'YYYY') %>
-        <i class="ri-heart-fill heart_icon"></i> <%= config.author || config.title %>
-      </li>
-    </ul>
-    <ul>
-      <li>
-        <% if (theme.pageFooter){ %>
-        <% var hexoLink = '<a href="https://hexo.io" target="_blank">Hexo</a>'; %>
-        <% var themeLink = '<a href="https://github.com/Shen-Yu/hexo-theme-ayer" target="_blank">Ayer</a>'; %>
-        <%- __('powered_by', hexoLink) %>
-        <span class="division">|</span>
-        <%- __('theme', themeLink) %>
-        <% } %>
-      </li>
-    </ul>
-    <ul>
-      <li>
-        <% if (theme.busuanzi && theme.busuanzi.enable){ %>
-        <%# "不蒜子统计" %>
-        <%- partial('post/busuanzi') %>
-        <% } %>
-      </li>
-    </ul>
-    <ul>
-      <% if (theme.icp&&theme.icp.enable){ %>
-        <li>
-          <a href="<%= theme.icp.url %>" target="_black" rel="nofollow"><%= theme.icp.text %></a>
-        </li>
-        <% } %>
-    </ul>
-    <ul>
-      <% if (theme.gongan&&theme.gongan.enable){ %>
-      <li>
-          <img src="<%= theme.gongan.img %>"></img>
-          <a href="<%= theme.gongan.url %>" target="_black" rel="nofollow"><%= theme.gongan.text %></a>
-      </li>
-        <% } %>
-    </ul>
-    <ul>
-      <li>
-        <!-- cnzz统计 -->
-        <% if (theme.cnzz&&theme.cnzz.enable){ %>
-        <script type="text/javascript" src='<%= theme.cnzz.url%>'></script>
-        <% } %>
-      </li>
-    </ul>
-  </div>
+    <div class="outer">
+        <ul>
+            <li>
+                Copyrights &copy;
+                <% if (theme.since && !isNaN(theme.since) && theme.since < date(new Date(), 'YYYY')) { %><%- theme.since %>
+                -
+                <% } %>
+                <%= date(new Date(), 'YYYY') %>
+                <i class="ri-heart-fill heart_icon"></i> <%= config.author || config.title %>
+            </li>
+        </ul>
+        <ul>
+            <li>
+                <% if (theme.pageFooter){ %>
+                    <% var hexoLink = '<a href="https://hexo.io" target="_blank">Hexo</a>'; %>
+                    <% var themeLink = '<a href="https://github.com/Shen-Yu/hexo-theme-ayer" target="_blank">Ayer</a>'; %>
+                    <%- __('powered_by', hexoLink) %>
+                    <span class="division">|</span>
+                    <%- __('theme', themeLink) %>
+                <% } %>
+            </li>
+        </ul>
+        <ul>
+            <li>
+                <% if (theme.busuanzi && theme.busuanzi.enable){ %>
+                    <%# "不蒜子统计" %>
+                    <%- partial('post/busuanzi') %>
+                <% } %>
+            </li>
+        </ul>
+        <ul>
+            <% if (theme.icp && theme.icp.enable){ %>
+                <li>
+                    <a href="<%= theme.icp.url %>" target="_black" rel="nofollow"><%= theme.icp.text %></a>
+                </li>
+            <% } %>
+        </ul>
+        <ul>
+            <% if (theme.gongan && theme.gongan.enable){ %>
+                <li>
+                    <img src="<%= theme.gongan.img %>"></img>
+                    <a href="<%= theme.gongan.url %>" target="_black" rel="nofollow"><%= theme.gongan.text %></a>
+                </li>
+            <% } %>
+        </ul>
+        <ul>
+            <li>
+                <!-- cnzz统计 -->
+                <% if (theme.cnzz && theme.cnzz.enable){ %>
+                    <script type="text/javascript" src='<%= theme.cnzz.url %>'></script>
+                <% } %>
+            </li>
+        </ul>
+    </div>
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
@@ -90,16 +93,33 @@
 </script>
 
 <style>
+    /* 全局 mermaid 样式 */
     .mermaid .flowchart-link,
     .mermaid .edgePath path {
-        stroke: #ffffff !important;
-        stroke-width: 4px !important;   /* 加粗线条 */
+        stroke: #e0e0e0 !important;
+        stroke-width: 2.5px !important;
     }
+
     .mermaid .marker {
-        fill: #ffffff !important;
-        stroke: #ffffff !important;
+        fill: #e0e0e0 !important;
+        stroke: #e0e0e0 !important;
     }
+
+    .mermaid .edgePath path[dasharray] {
+        stroke: #aaaaaa !important;
+        stroke-dasharray: 6, 4 !important;
+    }
+
     .mermaid text {
         fill: #ffffff !important;
+        font-weight: 500 !important;
+    }
+
+    .mermaid .node rect,
+    .mermaid .node circle,
+    .mermaid .node polygon {
+        stroke: #ffffff !important;
+        stroke-width: 1.5px !important;
+        opacity: 0.9 !important;
     }
 </style>
