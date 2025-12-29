@@ -3,7 +3,7 @@ title: Docker 容器化入门
 categories: [ DevOps ]
 date: 2025-12-20 20:30:35
 tags: [ docker, 容器化, DevOps, CI/CD, Linux ]
-permalink: /DevOps
+permalink: /DevOps/Docker/
 math: true
 ---
 
