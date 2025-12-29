@@ -236,7 +236,7 @@ logging:
   pattern:
     console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
 ```
-> SpringBoot 的配置加载机制可以参考这份文档： [SpringBoot 配置加载机制与容器化适配](https://yuuine.cn/categories/DevOps/SpringBoot-Config-Container-Adaptation/)
+> SpringBoot 的配置加载机制可以参考这份文档： [SpringBoot 配置加载机制与容器化适配](https://yuuine.cn/categories/DevOps/SpringBootConfigContainerAdaptation/)
 
 #### **容器化相关的 JVM 参数**
 
