@@ -1,9 +1,9 @@
 ---
 title: SpringBoot 配置加载机制与容器化适配
 date: 2025-12-23 19:36:42
-categories: [ DevOps, SpringBoot ]
+categories: [ DevOps ]
 tags: [ springboot, configuration, docker, containerization, devops ]
-permalink: /DevOps/SpringBoot-Config-Container-Adaptation
+permalink: /DevOps/SpringBootConfigContainerAdaptation
 ---
 
 # SpringBoot 配置加载机制与容器化适配
