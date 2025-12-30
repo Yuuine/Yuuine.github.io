@@ -1,25 +1,34 @@
+# GitHub Actions 工作流：构建并部署 Hexo 博客到 GitHub Pages
 name: Pages
 
+# 触发条件：当推送到main分支时自动运行
 on:
   push:
     branches:
-      - main # default branch
+      - main # 默认分支
 
+# 工作流定义：包含构建和部署两个任务
 jobs:
+  # 构建任务：负责安装依赖、生成静态文件
   build:
     runs-on: ubuntu-latest
     steps:
+      # 步骤 1：检出代码仓库
       - uses: actions/checkout@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          # If your repository depends on submodule, please see: https://github.com/actions/checkout
+          # 如果你的仓库依赖子模块，请参考：https://github.com/actions/checkout
           submodules: recursive
-      - name: Use Node.js v24.11
+          
+      # 步骤 2：安装 Node.js 环境
+      - name: Use Node.js 20
         uses: actions/setup-node@v4
         with:
-          # Examples: 20, 18.19, >=16.20.2, lts/Iron, lts/Hydrogen, *, latest, current, node
-          # Ref: https://github.com/actions/setup-node#supported-version-syntax
+          # 示例: 20, 18.19, >=16.20.2, lts/Iron, lts/Hydrogen, *, latest, current, node
+          # 参考: https://github.com/actions/setup-node#supported-version-syntax
           node-version: "20"
+          
+      # 步骤 3：缓存 NPM 依赖以加速构建
       - name: Cache NPM dependencies
         uses: actions/cache@v4
         with:
@@ -27,24 +36,33 @@ jobs:
           key: ${{ runner.OS }}-npm-cache
           restore-keys: |
             ${{ runner.OS }}-npm-cache
+            
+      # 步骤 4：安装项目依赖
       - name: Install Dependencies
         run: npm install
+        
+      # 步骤 5：构建 Hexo 静态网站（生成public目录）
       - name: Build
         run: npm run build
+        
+      # 步骤 6：上传构建产物供部署任务使用
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./public
+          path: ./public  # 上传public目录，其中包含构建后的静态文件
+
+  # 部署任务：将构建产物部署到 GitHub Pages
   deploy:
-    needs: build
+    needs: build  # 依赖 build任务完成
     permissions:
-      pages: write
-      id-token: write
+      pages: write      # 部署到 GitHub Pages 的权限
+      id-token: write   # 用于身份验证的权限
     environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+      name: github-pages  # 部署环境
+      url: ${{ steps.deployment.outputs.page_url }}  # 部署完成后生成的URL
     runs-on: ubuntu-latest
     steps:
+      # 部署到 GitHub Pages
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
