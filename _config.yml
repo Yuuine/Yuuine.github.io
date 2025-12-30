@@ -17,7 +17,7 @@ url: https://Yuuine.github.io
 # For GitHub Pages, you might need to adjust this if using custom domain
 permalink: :year/:month/:day/:title/
 # If using project pages (not user/organization pages), uncomment the next line
-root: /Yuuine.github.io/
+# root: /Yuuine.github.io/
 permalink_defaults:
 pretty_urls:
   trailing_index: true # Set to false to remove trailing 'index.html' from permalinks
