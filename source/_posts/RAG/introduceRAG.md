@@ -3,7 +3,7 @@ title: 什么是 RAG ?
 categories: [ RAG ]
 date: 2025-07-03 17:07:20
 tags: [ RAG ]
-permalink: /RAG/introduceRAG/
+permalink: /rag/introduceRAG/
 math: true
 ---
 
