@@ -111,4 +111,4 @@ deploy:
 # Mermaid 图表
 mermaid:
   enable: true
-  theme: neutral
+  theme: "default"

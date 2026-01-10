@@ -141,6 +141,69 @@ public Mono<String> hello() {
 }
 ```
 
+### HTTP 轮询
+
+HTTP 轮询（Polling）是一种**客户端定期向服务器发起 HTTP 请求，以检查是否有新数据**的通信模式。它是 Web 应用中实现“近似实时”更新的最简单、最传统的方式。
+
+> WebSocket、SSE 已能提供真正的实时通信，轮询因其**简单、兼容性好、调试方便**，可在简单场景使用
+
+#### 基本原理
+
+1. **客户端**每隔固定时间（如 2 秒）自动发送一次 HTTP 请求
+2. **服务器**收到请求后，立即返回当前最新的数据（无论是否有更新）
+3. **客户端**收到响应后，处理数据，并等待下一次轮询
+
+{% mermaid %}
+sequenceDiagram
+    participant Client
+    participant Server
+    loop 每隔 N 秒
+        Client->>Server: GET /data
+        Server-->>Client: { "items": [...] }
+        Client->>Client: 更新 UI
+    end
+{% endmermaid %}
+
+#### **短轮询（Short Polling）**
+
+- 客户端定时发起请求，服务器**立即响应**（无论有无新数据）
+- **最常见形式**，即通常所说的“HTTP 轮询”
+
+优点：实现简单、兼容所有浏览器和服务器  
+缺点：
+- 大量无效请求（无新数据时也请求）
+- 延迟高（最长可达轮询间隔）
+- 浪费带宽和服务器资源
+
+> 示例：每 5 秒查一次消息，即使 1 小时没新消息，也会发 720 次请求。
+
+---
+
+#### **长轮询（Long Polling）**
+- 客户端发起请求后，**服务器不立即响应**，而是**挂起请求**，直到有新数据或超时
+- 一旦有数据，服务器立刻返回；客户端收到后**立即发起下一次请求**
+
+{% mermaid %}
+sequenceDiagram
+    participant Client
+    participant Server
+    Client->>Server: GET /data (请求1)
+    Note right of Server: 无数据，挂起
+    Server-->>Client: { "new": true } (5秒后有数据)
+    Client->>Client: 处理数据
+    Client->>Server: GET /data (请求2，立即发起)
+{% endmermaid %}
+
+优点：
+- 减少无效请求
+- 延迟更低（接近实时）
+缺点：
+- 服务器需维持大量挂起连接（占用线程/内存）
+- 实现比短轮询复杂
+- 仍基于请求-响应模型，无法真正“推送”
+
+> 注意：长轮询**不是 WebSocket**，它仍是 HTTP 请求，只是响应被延迟了。
+
 ---
 
 ## Spring MVC
@@ -275,3 +338,279 @@ WebFlux **不依赖 Servlet API**，因此可在以下服务器运行：
 > **Spring WebFlux 是 Spring 生态中面向高并发、低延迟场景的响应式 Web 框架。它通过非阻塞 I/O 和响应式流，用极少线程处理海量连接，但要求全链路（数据库、客户端、中间件）都支持响应式。它不是 MVC 的替代品，而是特定场景下的有力补充。**
 
 ---
+
+## SSE
+
+**SSE**（Server-Sent Events，服务器发送事件）是一种基于 HTTP 协议的单向、实时、文本流式通信技术，允许服务器主动向客户端（通常是浏览器）推送数据，而无需客户端轮询。
+
+由 HTML5 规范定义，是现代 Web 开发中实现“服务端主动通知”的轻量级方案。
+
+本质是：
+> 在一个 HTTP 连接上，服务器可以不断向客户端推送数据，而不需要客户端反复发请求。
+
+**特点**
+
+| 特性            | 说明                                                    |
+|---------------|-------------------------------------------------------|
+| 单向通信          | 仅 服务器 → 客户端，客户端不能通过 SSE 向服务器发消息                       |
+| 基于 HTTP/HTTPS | 使用标准 HTTP 协议，无需特殊端口或协议（如 WebSocket 需要 `ws://`）        |
+| 自动重连          | 客户端断开后会自动尝试重连（可配置重试间隔）                                |
+| 文本流格式         | 数据以 UTF-8 文本形式按行推送，支持 JSON、纯文本等                       |
+| 浏览器原生支持       | 现代浏览器（Chrome、Firefox、Edge、Safari）内置 `EventSource` API |
+| 不支持 IE        | Internet Explorer 所有版本均不支持（可通过 polyfill 降级）           |
+| 不支持二进制数据      | 仅限文本，大文件或音视频需用其他方案（如 WebSocket）                       |
+
+
+
+SSE 的响应：
+```http
+HTTP/1.1 200 OK
+Content-Type: text/event-stream
+Cache-Control: no-cache
+Connection: keep-alive
+```
+
+按照 SSE 协议格式发送文本块，每条消息以 `data:` 开头，以两个换行符 `\n\n` 结尾：
+```text
+data: {"time": "15:30", "msg": "新订单到达"}\n\n
+data: {"time": "16:30", "msg": "新订单到达"}\n\n
+
+data: {"time": "17:30", "msg": "新订单到达"}\n\n
+```
+
+断线自动重连：
+
+若连接中断，浏览器默认每 3 秒重试一次（可通过 `retry: 5000` 自定义）。
+
+### SSE 协议规范
+
+每条消息由若干字段组成，空行表示消息结束：
+
+```text
+event: notification        // 可选：自定义事件类型（默认为 "message"）
+id: 123                    // 可选：消息 ID，用于断线后恢复（Last-Event-ID）
+data: 这是一条消息         // 必填：消息内容（可多行）
+data: 支持多行拼接
+retry: 5000                // 可选：重连间隔（毫秒）
+```
+
+### Spring MVC 中的 SSE
+
+Spring 提供了 `SseEmitter`，作为**SSE 协议编码器 + HTTP 流写入器**。
+
+在 Java 中调用
+```java
+emitter.send("hello");
+```
+
+Spring 会在底层格式化为：
+```kotiln
+data: hello\n\n
+```
+
+Spring 中使用示例：
+```java
+@GetMapping("/stream")
+public SseEmitter stream() {
+    SseEmitter emitter = new SseEmitter();
+    new Thread(() -> {
+        emitter.send("A");
+        emitter.send("B");
+        emitter.send("C");
+    }).start();
+    return emitter;
+}
+```
+
+**SSE 在 Spring MVC 中的线程模型**
+
+基本线程模型：Servlet 容器线程 + 长时间占用
+
+**请求处理流程**：
+- 客户端发起 SSE 请求
+- Servlet 容器（如 Tomcat）从**线程池**中分配一个工作线程（Worker Thread）处理该请求
+- Controller 方法返回 `SseEmitter`（或 `ResponseBodyEmitter`）
+- Spring **不立即结束响应**，而是保持 `HttpServletResponse.getOutputStream()` 打开
+- 该线程**持续持有连接**，用于后续调用 `emitter.send(...)` 向客户端写数据
+
+每个 SSE 连接独占一个 Servlet 线程，线程长时间阻塞，不会被释放回池，直到连接关闭。 
+
+这与 **WebFlux + Netty** 的模型形成鲜明对比：
+- WebFlux 使用少量 Event Loop 线程（如 4 个）可支撑数万 SSE 连接
+- 因为 Netty 是非阻塞 I/O，连接不绑定线程
+
+**Spring MVC 中的 SSE 是“伪异步”——它利用 Servlet 异步特性延长响应，但底层仍依赖阻塞 I/O 和线程绑定，无法实现真正的高并发。若需支持大量 SSE 连接，需要优先考虑 WebFlux。**
+
+---
+
+## WebSocket
+
+WebSocket 是一种**在单个 TCP 连接上实现全双工、双向、实时通信**的网络协议，专为 Web 应用设计。它解决了传统 HTTP 协议在实时交互场景下的根本性限制（如轮询开销大、延迟高、无法服务器主动推送等）。
+
+**传统 HTTP 的局限：**
+- **请求-响应模型**：客户端必须先发起请求，服务器才能响应。
+- **无状态**：每次请求独立，无法维持会话上下文（除非靠 Cookie/Session）。
+- **高延迟 & 高开销**：
+    - 轮询（Polling）：频繁空请求浪费带宽和 CPU。
+    - 长轮询（Long Polling）：连接挂起占用服务器资源。
+- **无法真正“推送”**：服务器有新数据时，不能主动通知客户端。
+
+> **WebSocket 的目标**：建立一个**持久、低延迟、双向、轻量**的通信通道。
+
+### WebSocket 核心特性
+
+| 特性               | 说明                                      |
+|------------------|-----------------------------------------|
+| **全双工通信**        | 客户端和服务器可**同时、独立地发送数据**，互不阻塞             |
+| **单 TCP 连接**     | 建立后复用同一个连接，避免重复握手开销                     |
+| **低延迟**          | 数据可立即发送，无需等待请求                          |
+| **轻量级协议头**       | 数据帧头部仅 2~14 字节（HTTP 头通常几百字节）            |
+| **兼容 HTTP 基础设施** | 使用 `ws://`（80）或 `wss://`（443），可穿透防火墙和代理 |
+| **支持文本 & 二进制**   | 可传输 JSON、Protobuf、音视频流等                 |
+
+---
+
+### WebSocket 生命周期
+
+#### 阶段 1：**握手（Handshake）**
+客户端通过 HTTP 发起“协议升级”请求：
+
+```http
+GET /chat HTTP/1.1
+Host: example.com
+Upgrade: websocket          // 请求升级为 WebSocket
+Connection: Upgrade         // 表示要切换协议
+Sec-WebSocket-Key: dGhlIHNhbXBsZSBub25jZQ==  // 随机 Base64 字符串
+Sec-WebSocket-Version: 13   // 协议版本
+```
+
+服务器验证并响应：
+
+```http
+HTTP/1.1 101 Switching Protocols
+Upgrade: websocket
+Connection: Upgrade
+Sec-WebSocket-Accept: s3pPLMBiTxaQ9kYGzzhZRbK+xOo=  // Key 经 SHA1+Base64 计算得出
+```
+
+> - 握手是标准的 HTTP 请求/响应
+> - 状态码 `101` 表示“协议切换成功”
+> - 此后，**TCP 连接被“接管”为 WebSocket 连接**
+
+
+#### 阶段 2：**数据传输（Data Framing）**
+握手成功后，双方通过 **WebSocket 帧（Frame）** 交换数据：
+
+开发者通常**无需关心帧细节**，由浏览器/库自动处理。
+
+
+#### 阶段 3：**连接关闭（Closing Handshake）**
+任一方可发送 **关闭帧**，对方应回应相同帧，实现优雅关闭。
+
+```javascript
+// JavaScript 示例
+socket.close(1000, "正常关闭"); // 1000 是标准关闭码
+```
+
+常见关闭码：
+- `1000`：正常关闭
+- `1001`：终端离开（如页面关闭）
+- `1006`：连接异常中断（无关闭帧）
+
+> **WebSocket 是为实时 Web 应用而生的革命性协议**：
+> - 它通过一次 HTTP 握手建立持久化 TCP 通道，
+> - 实现客户端与服务器之间的**低延迟、全双工、双向通信**，
+> - 彻底摆脱了 HTTP 请求-响应模型的束缚，
+> - 成为聊天、游戏、金融、IoT 等实时场景的**事实标准**。
+
+
+虽然增加了服务器复杂度，但在现代云原生架构（如 Kubernetes + WebSocket Gateway）下，已能高效支撑百万级并发连接。
+
+### Spring 中使用 WebSocket
+
+Spring Framework 提供了对 WebSocket 的原生支持，主要通过 `spring-boot-starter-websocket` 模块实现。支持两种主要方式：
+
+1. **基于 STOMP 协议的 WebSocket**（推荐方式）：提供消息代理（Broker）支持，实现发布/订阅模式，适合复杂实时应用。
+2. **原生 WebSocket API**（JSR-356）：更底层，适合简单场景。
+
+**下面重点介绍 Spring 原生 WebSocket （含 STOMP）**
+
+#### 1. 添加依赖
+
+在 `pom.xml` 中添加：
+
+```xml
+    <!-- Spring WebSocket 支持 -->
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-websocket</artifactId>
+</dependency>
+        <!-- Spring Boot Web Starter -->
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-web</artifactId>
+</dependency>
+```
+
+#### 2. 配置 WebSocket
+
+创建一个配置类，实现 `WebSocketConfigurer`，注册 STOMP 端点并启用 SockJS。
+
+```java
+@Configuration
+@EnableWebSocketMessageBroker  // 启用 STOMP 消息代理
+public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
+
+    @Override
+    public void registerStompEndpoints(StompEndpointRegistry registry) {
+        // 注册 WebSocket 端点，客户端将连接此路径
+        // 启用 SockJS 回退选项，兼容不支持 WebSocket 的浏览器
+        registry.addEndpoint("/ws").withSockJS();
+    }
+
+    @Override
+    public void configureMessageBroker(MessageBrokerRegistry registry) {
+        // 启用简单内置消息代理，用于广播消息
+        // 客户端订阅的前缀为 "/topic" 和 "/queue"
+        registry.enableSimpleBroker("/topic", "/queue");
+
+        // 应用前缀：客户端发送消息的目标前缀
+        registry.setApplicationDestinationPrefixes("/app");
+    }
+}
+```
+
+#### 3. 创建消息处理控制器
+
+使用 `@Controller` 和 STOMP 注解处理消息。
+
+```java
+@Controller
+public class WebSocketController {
+
+    // 客户端发送消息到 "/app/hello" 时触发此方法
+    // 返回的消息会自动广播到 "/topic/greetings"
+    @MessageMapping("/hello")
+    @SendTo("/topic/greetings")
+    public String handleGreeting(String message) {
+        return "Server received: " + message;
+    }
+}
+```
+
+---
+
+## WebSocket vs HTTP vs SSE
+
+| 特性        | WebSocket       | HTTP (短/长轮询)   | SSE (Server-Sent Events) |
+|-----------|-----------------|----------------|--------------------------|
+| **通信方向**  | 双向              | 单向（客户端→服务器）    | 单向（服务器→客户端）              |
+| **协议层级**  | 应用层（独立协议）       | 应用层            | 基于 HTTP 流                |
+| **连接持久性** | 持久              | 短连接 / 挂起连接     | 持久 HTTP 流                |
+| **数据格式**  | 文本 + 二进制        | 任意             | 仅文本（UTF-8）               |
+| **浏览器支持** | IE10+           | 全部             | IE 不支持                   |
+| **服务器压力** | 低（单连接复用）        | 高（轮询） / 中（长轮询） | 中（每个连接占线程）               |
+| **适用场景**  | 聊天、游戏、协同编辑、实时交易 | 低频更新、兼容旧系统     | 实时通知、日志流、股票行情            |
+
+---
+
