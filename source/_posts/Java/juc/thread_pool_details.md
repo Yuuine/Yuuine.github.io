@@ -3,7 +3,7 @@ title: 线程池详解
 categories: [ Java, juc ]
 date: 2025-07-10 18:47:28
 tags: [ Java, juc, thread pool ]
-permalink: /rag/thread_pool_details/
+permalink: /juc/thread_pool_details/
 ---
 
 # 线程池详解

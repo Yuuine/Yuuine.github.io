@@ -146,7 +146,7 @@ services:
     networks:
       - app-network
 
-  # MySQL 数据库服务
+  # mysql 数据库服务
   db:
     image: mysql:9
     environment:

@@ -59,7 +59,7 @@ RAG（Retrieval-Augmented Generation）是一种**将信息检索与语言生成
 
 现在 RAG 系统已超越早期的两阶段（检索 + 生成）流水线，发展为支持**迭代检索、多源融合、置信度反馈**的闭环架构。
 
-```mermaid
+{% mermaid %}
 flowchart LR
     A["用户查询"] --> B{"智能检索器\n(含查询理解与改写)"} 
     B --> C["多源知识库\n• 向量库（PDF/网页）\n• 结构化数据库\n• 实时API"]
@@ -70,7 +70,7 @@ flowchart LR
     F --> G
     G --> H{"生成器\n(LLM + 引用约束)"} 
     H --> I["带引用的答案"]
-```
+{% endmermaid %}
 
 ### 1. 检索阶段（Retrieval）
 
