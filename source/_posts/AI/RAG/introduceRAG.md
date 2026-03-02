@@ -1,9 +1,9 @@
 ---
 title: 什么是 RAG ?
-categories: [ RAG ]
+categories: [ AI, RAG ]
 date: 2025-07-03 17:07:20
 tags: [ RAG ]
-permalink: /rag/introduceRAG/
+permalink: /ai/rag/introduceRAG/
 math: true
 ---
 

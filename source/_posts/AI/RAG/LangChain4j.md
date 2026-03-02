@@ -1,9 +1,9 @@
 ---
 title: 详解 LangChain4j
 date: 2025-12-24 22:24:48
-categories: [ RAG ]
+categories: [ AI, RAG ]
 tags: [ LangChain4j, AI, Java, LLM, RAG ]
-permalink: /rag/LangChain4j/
+permalink: /ai/rag/LangChain4j/
 ---
 
 # LangChain4j

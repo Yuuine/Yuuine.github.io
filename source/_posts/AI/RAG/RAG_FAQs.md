@@ -1,9 +1,9 @@
 ---
 title: RAG 常见问题
-categories: [ RAG ]
+categories: [ AI, RAG ]
 date: 2025-11-15 20:32:39
 tags: [ RAG ]
-permalink: /rag/RAG_FAQs/
+permalink: /ai/rag/RAG_FAQs/
 math: true
 ---
 
