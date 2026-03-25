@@ -50,8 +50,3 @@ js('/js/busuanzi-2.3.pure.min') %> <% } %>
 partial('post/clipboard') %> <% } %>
 <!-- CanvasBackground -->
 <% if (theme.canvas_bg == 1) { %> <%- js('/js/dz') %> <% } %>
-<script>
-  if (window.mermaid) {
-    mermaid.initialize({ theme: "<%= theme.mermaid.theme %>" });
-  }
-</script>

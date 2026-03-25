@@ -55,71 +55,11 @@
     </div>
 </footer>
 
-<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<% if (theme.mermaid.enable) { %>
 <script>
     mermaid.initialize({
         startOnLoad: true,
-        theme: 'base',
-        themeVariables: {
-            // 线条与箭头颜色：明亮白色
-            lineColor: '#ffffff',
-
-            // 线条粗细（默认约 2px，这里加粗到 4px）
-            fontSize: '16px',                 // 整体文字稍大，提高可读性
-            textColor: '#ffffff',             // 节点内文字白色
-
-            // 节点背景与边框
-            primaryColor: '#1e88e5',           // 主节点深蓝背景（有一定亮度）
-            primaryTextColor: '#ffffff',
-            primaryBorderColor: '#bbdefb',    // 边框亮蓝
-
-            secondaryColor: '#43a047',        // 次节点绿色背景
-            secondaryTextColor: '#ffffff',
-            secondaryBorderColor: '#c8e6c9',
-
-            tertiaryColor: '#f5f5f5',         // 辅助节点浅灰
-
-            // 流程图专属：箭头与连接线加粗
-            edgeLabelBackground: '#212121',   // 标签背景保持暗色
-            signalColor: '#ffffff',           // 信号线颜色
-
-            flowchart: {
-                curve: 'basis'
-            }
-        },
-        securityLevel: 'loose'
+        theme: '<%= theme.mermaid.theme %>'
     });
 </script>
-
-<style>
-    /* 全局 mermaid 样式 */
-    .mermaid .flowchart-link,
-    .mermaid .edgePath path {
-        stroke: #e0e0e0 !important;
-        stroke-width: 2.5px !important;
-    }
-
-    .mermaid .marker {
-        fill: #e0e0e0 !important;
-        stroke: #e0e0e0 !important;
-    }
-
-    .mermaid .edgePath path[dasharray] {
-        stroke: #aaaaaa !important;
-        stroke-dasharray: 6, 4 !important;
-    }
-
-    .mermaid text {
-        fill: #ffffff !important;
-        font-weight: 500 !important;
-    }
-
-    .mermaid .node rect,
-    .mermaid .node circle,
-    .mermaid .node polygon {
-        stroke: #ffffff !important;
-        stroke-width: 1.5px !important;
-        opacity: 0.9 !important;
-    }
-</style>
+<% } %>
