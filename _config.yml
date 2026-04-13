@@ -5,8 +5,8 @@
 # Site
 title: Yuuine
 subtitle: ''
-description: ''
-keywords: 'blog'
+description: '技术博客，分享 Java、分布式、DevOps、AI 等领域的知识与实践'
+keywords: 'blog,技术博客,Java,分布式,DevOps,AI,LLM,MCP'
 author: Yuuine
 language: en
 timezone: ''
@@ -100,6 +100,21 @@ ignore:
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
 theme: ayer
+
+# Feed
+feed:
+  type: atom
+  path: atom.xml
+  limit: 20
+  hub:
+  content: true
+  content_limit: 140
+  content_limit_delim: ' '
+  order: -date
+
+# Sitemap
+sitemap:
+  path: sitemap.xml
 
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment

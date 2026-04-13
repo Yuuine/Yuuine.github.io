@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /_drafts/
+Disallow: /_posts/_drafts/
+Disallow: /js/
+Disallow: /css/
+
+Sitemap: https://Yuuine.github.io/sitemap.xml

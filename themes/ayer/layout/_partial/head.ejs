@@ -28,6 +28,65 @@
         name="viewport"
         content="width=device-width, initial-scale=1, maximum-scale=1"
       />
+
+      <% var pageUrl = config.url + page.path; %>
+      <% var ogImage = page.cover || theme.cover.enable ? config.url + (page.cover || theme.cover.path) : ''; %>
+
+      <meta property="og:type" content="<%= is_post() ? 'article' : 'website' %>" />
+      <meta property="og:title" content="<%= title ? title + ' | ' : '' %><%= config.title %>" />
+      <meta property="og:description" content="<%= page.description || config.description || '' %>" />
+      <meta property="og:url" content="<%= pageUrl %>" />
+      <meta property="og:site_name" content="<%= config.title %>" />
+      <% if (ogImage) { %>
+      <meta property="og:image" content="<%= ogImage %>" />
+      <% } %>
+
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content="<%= title ? title + ' | ' : '' %><%= config.title %>" />
+      <meta name="twitter:description" content="<%= page.description || config.description || '' %>" />
+      <% if (ogImage) { %>
+      <meta name="twitter:image" content="<%= ogImage %>" />
+      <% } %>
+
+      <link rel="canonical" href="<%= pageUrl %>" />
+
+      <% if (is_post()) { %>
+      <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": "<%= page.title %>",
+        "author": {
+          "@type": "Person",
+          "name": "<%= config.author %>"
+        },
+        "datePublished": "<%= page.date.toISOString() %>",
+        <% if (page.updated) { %>
+        "dateModified": "<%= page.updated.toISOString() %>",
+        <% } %>
+        "url": "<%= pageUrl %>",
+        <% if (ogImage) { %>
+        "image": "<%= ogImage %>",
+        <% } %>
+        "publisher": {
+          "@type": "Organization",
+          "name": "<%= config.title %>",
+          "url": "<%= config.url %>"
+        }
+      }
+      </script>
+      <% } else { %>
+      <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "<%= config.title %>",
+        "url": "<%= config.url %>",
+        "description": "<%= config.description || '' %>"
+      }
+      </script>
+      <% } %>
+
       <title><% if (title){ %><%= title %> | <% } %> <%= config.title %></title>
       <% if (theme.favicon){ %>
       <link rel="shortcut icon" href="<%- theme.favicon %>" />
