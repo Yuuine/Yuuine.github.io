@@ -44,3 +44,10 @@ System Volume Information/
 *.bak
 *.orig
 *.log
+
+# Local AI / editor overrides
+.claude/
+.codegraph/
+*.local.json
+CLAUDE.md
+docs/
