@@ -89,7 +89,8 @@
 
       <title><% if (title){ %><%= title %> | <% } %> <%= config.title %></title>
       <% if (theme.favicon){ %>
-      <link rel="shortcut icon" href="<%- theme.favicon %>" />
+      <link rel="icon" type="image/svg+xml" href="<%- theme.favicon %>" />
+      <link rel="shortcut icon" href="/favicon.ico" />
       <% } %> <%- css('dist/main') %>
       <%- css('css/fonts/remixicon') %>
       <%- css('css/custom') %> <% if (theme.progressBar){ %>
