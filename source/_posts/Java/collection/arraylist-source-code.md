@@ -1,8 +1,9 @@
 ---
 title: ArrayList 源码分析
-categories: [ Java, collection ]
+categories: [ Java ]
 date: 2025-12-27 17:07:20
-tags: [ Java, collection ]
+description: '深入分析 Java ArrayList 源码实现，了解动态数组的工作原理、扩容机制及常用操作。'
+tags: [ collection ]
 permalink: /Java/collection/
 ---
 

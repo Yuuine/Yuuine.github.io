@@ -1,8 +1,9 @@
 ---
 title: Java 网络通信
-categories: [ Java, JavaWeb ]
+categories: [ Java ]
 date: 2025-09-23 20:34:13
-tags: [ Java, communication, network, application layer ]
+description: '从应用层角度介绍 Java 主流通信方式，包括 HTTP、WebSocket、RPC 等协议的特点和适用场景。'
+tags: [ network, javaweb ]
 permalink: /other/application_layer_communication/
 ---
 

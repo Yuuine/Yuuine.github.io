@@ -6,13 +6,29 @@
     list-unstyled()
     .nav-item-link
       display block
-      padding 1rem
+      padding 1rem 1.2rem
       color #bbb
       text-decoration none
       cursor pointer
+      position relative
+      transition all .3s ease
+      border-radius 6px
+      margin 0 .5rem
+      &::after
+        content ''
+        position absolute
+        bottom 6px
+        left 50%
+        width 0
+        height 2px
+        background #00c4b6
+        transition all .3s cubic-bezier(0.22, 1, 0.36, 1)
+        transform translateX(-50%)
       &:hover
-        opacity .8
-        background-color body-color
+        color #fff
+        background rgba(255,255,255,0.06)
+        &::after
+          width 60%
     &.nav-main
       height 60vh
       overflow-y scroll
@@ -36,5 +52,8 @@
   margin-bottom 2rem
   img
     width logo-size
+    transition transform .3s ease
+    &:hover
+      transform scale(1.05)
 
   

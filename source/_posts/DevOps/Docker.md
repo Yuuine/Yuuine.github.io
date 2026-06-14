@@ -2,7 +2,8 @@
 title: Docker 容器化入门
 categories: [ DevOps ]
 date: 2025-12-20 20:30:35
-tags: [ docker, 容器化, DevOps, CI/CD, Linux ]
+description: 'Docker 容器化入门指南，从基础概念到实战操作，帮助你快速掌握容器化技术。'
+tags: [ docker, linux, ci-cd ]
 permalink: /DevOps/Docker/
 math: true
 ---

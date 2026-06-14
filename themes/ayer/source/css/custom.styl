@@ -17,7 +17,14 @@ if hexo-config('mouse.enable')
 .navbar-toggle
     left 1.5rem + $aside-width
 .search-form-wrap
-    right $aside-width
+    left 0 !important
+    right 0 !important
+    width 100% !important
+    max-width none !important
+    .local-search
+        width 100% !important
+        max-width 70rem
+        margin 0 auto
 
 @media(min-width: 768px)
     .outer, .wrap
@@ -33,4 +40,221 @@ if hexo-config('mouse.enable')
         transform translateX($aside-width)
         &.on
             transform translateX(0)
-    
+
+// ========== 全局精致化 ==========
+
+// 标题链接 hover 下划线动画
+.article-title a,
+.archive-article-header a
+    position: relative
+    text-decoration: none
+    &::after
+        content: ''
+        position: absolute
+        bottom: -2px
+        left: 0
+        width: 0
+        height: 2px
+        background: linear-gradient(90deg, #00c4b6, #0681d0)
+        transition: width 0.4s cubic-bezier(0.22, 1, 0.36, 1)
+    &:hover::after
+        width: 100%
+
+// 文章元信息（日期、分类）精致化
+.article-date,
+.article-category
+    transition: color 0.3s ease
+    &:hover
+        color: #00c4b6
+
+// "阅读更多" 按钮全局样式
+.article-more-link
+    display: inline-block
+    background: linear-gradient(135deg, #00c4b6, #0681d0) !important
+    padding: 0.6rem 1.6rem !important
+    border-radius: 20px !important
+    color: white !important
+    text-decoration: none !important
+    font-weight: 500
+    letter-spacing: 0.02em
+    box-shadow: 0 2px 10px rgba(0,196,182,0.3)
+    transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1) !important
+    &:hover
+        transform: translateY(-2px) !important
+        box-shadow: 0 6px 20px rgba(0,196,182,0.4) !important
+
+// 侧栏背景模糊增强
+.sidebar
+    backdrop-filter: blur(12px)
+    -webkit-backdrop-filter: blur(12px)
+
+// 页面切换过渡
+.content
+    transition: margin-left 0.4s cubic-bezier(0.22, 1, 0.36, 1)
+
+// 分页按钮样式
+.page-nav a,
+.page-nav span
+    transition: all 0.3s ease
+    border-radius: 8px
+    &:hover
+        background: #00c4b6
+        color: white
+        border-color: #00c4b6
+
+// 页脚精致化
+.footer
+    border-top: 1px solid #f0f0f0
+    a
+        transition: color 0.3s ease
+        &:hover
+            color: #00c4b6
+
+// ========== 封面动画 ==========
+@keyframes coverFadeUp
+    0%
+        opacity: 0
+        transform: translate(-50%, -80%) translateY(30px)
+    100%
+        opacity: 1
+        transform: translate(-50%, -100%) translateY(0)
+
+@keyframes subtitleFadeUp
+    0%
+        opacity: 0
+        transform: translateY(20px)
+    100%
+        opacity: 1
+        transform: translateY(0)
+
+@keyframes arrowPulse
+    0%, 100%
+        opacity: .6
+        transform: translateY(0) scale(1)
+    50%
+        opacity: 1
+        transform: translateY(8px) scale(1.1)
+
+@keyframes logoFloat
+    0%, 100%
+        transform: translateY(0)
+    50%
+        transform: translateY(-8px)
+
+.cover-frame
+    overflow: hidden !important
+    .bg-box > .cover-media
+        transition: opacity 0.6s ease
+
+.cover-overlay
+    position: absolute
+    top: 0
+    left: 0
+    width: 100%
+    height: 100%
+    background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.15) 40%, rgba(0,0,0,0.4) 100%)
+    z-index: 1
+    pointer-events: none
+
+.cover-inner
+    z-index: 2 !important
+    animation: coverFadeUp 1.2s cubic-bezier(0.22, 1, 0.36, 1) both
+    h1
+        font-weight: 700 !important
+        letter-spacing: -0.02em
+        text-shadow: 0 2px 20px rgba(0,0,0,0.3)
+    #subtitle-box
+        font-weight: 300 !important
+        letter-spacing: 0.08em !important
+        margin: 0.8rem 0 1.8rem !important
+        opacity: 0
+        animation: subtitleFadeUp 1s cubic-bezier(0.22, 1, 0.36, 1) 0.4s both
+        text-shadow: 0 1px 10px rgba(0,0,0,0.2)
+    .cover-logo
+        animation: logoFloat 4s ease-in-out infinite
+
+.cover-learn-more
+    z-index: 3 !important
+    bottom: 30px !important
+    opacity: 0
+    animation: subtitleFadeUp 1s ease 1.2s both
+    a > i
+        font-size: 2.5rem !important
+        color: rgba(255,255,255,0.7) !important
+        animation: arrowPulse 2s ease-in-out infinite
+        transition: color 0.3s ease
+        &:hover
+            color: #00c4b6 !important
+
+// ========== 文章卡片动画 ==========
+@keyframes cardReveal
+    0%
+        opacity: 0
+        transform: translateY(40px)
+    100%
+        opacity: 1
+        transform: translateY(0)
+
+.articles .article-entry
+    border: 1px solid #f0f0f0 !important
+    border-radius: 12px !important
+    background: linear-gradient(135deg, #fff 0%, #fafbfc 100%) !important
+    transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1) !important
+    position: relative
+    overflow: hidden
+    opacity: 0
+    animation: cardReveal 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards
+    &:nth-child(1)
+        animation-delay: 0.1s
+    &:nth-child(2)
+        animation-delay: 0.2s
+    &:nth-child(3)
+        animation-delay: 0.3s
+    &:nth-child(4)
+        animation-delay: 0.4s
+    &:nth-child(5)
+        animation-delay: 0.5s
+    &::before
+        content: ''
+        position: absolute
+        top: 0
+        left: 0
+        width: 3px
+        height: 0
+        background: linear-gradient(180deg, #00c4b6, #0681d0)
+        border-radius: 0 2px 2px 0
+        transition: height 0.4s cubic-bezier(0.22, 1, 0.36, 1)
+    &:hover
+        transform: translateY(-4px) !important
+        box-shadow: 0 12px 40px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.04) !important
+        border-color: #e8e8e8 !important
+        &::before
+            height: 100%
+
+// ========== 导航栏增强 ==========
+.navbar .nav .nav-item-link
+    position: relative
+    transition: all 0.3s ease
+    border-radius: 6px
+    margin: 0 0.5rem
+    &::after
+        content: ''
+        position: absolute
+        bottom: 6px
+        left: 50%
+        width: 0
+        height: 2px
+        background: #00c4b6
+        transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1)
+        transform: translateX(-50%)
+    &:hover
+        color: #fff !important
+        background: rgba(255,255,255,0.06) !important
+        opacity: 1 !important
+        &::after
+            width: 60%
+
+.logo img
+    transition: transform 0.3s ease
+    &:hover
+        transform: scale(1.05)

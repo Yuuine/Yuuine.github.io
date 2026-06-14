@@ -2,7 +2,8 @@
 title: 开源智能体框架 OpenClaw 深度解析
 categories: [ AI ]
 date: 2026-3-2 22:12:43
-tags: [ AI, OpenClaw , agent ]
+description: '全面解析 GitHub 星标超 24 万的开源智能体框架 OpenClaw，从项目定位、架构设计到核心功能，了解如何让 AI 从对话进化到行动。'
+tags: [ openclaw, agent ]
 permalink: /ai/openClaw/
 math: true
 ---

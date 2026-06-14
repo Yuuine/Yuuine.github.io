@@ -1,8 +1,9 @@
 ---
 title: 详解 LangChain4j
 date: 2025-12-24 22:24:48
-categories: [ AI, RAG ]
-tags: [ LangChain4j, AI, Java, LLM, RAG ]
+description: 'LangChain4j 是 Java 版本的 LangChain 库，本文详解如何使用它构建基于大语言模型的应用，包括多模型支持、链式调用和工具集成。'
+categories: [ AI ]
+tags: [ langchain4j, rag, java, llm ]
 permalink: /ai/rag/LangChain4j/
 ---
 

@@ -1,8 +1,9 @@
 ---
 title: SpringBoot 配置加载机制与容器化适配
 date: 2025-12-21 19:36:42
+description: '深入解析 SpringBoot 配置加载优先级，以及如何在 Docker 容器化环境中适配配置管理。'
 categories: [ DevOps ]
-tags: [ SpringBoot, configuration, docker, containerization, devops ]
+tags: [ springboot, docker, containerization ]
 permalink: /DevOps/SpringBootConfigContainerAdaptation/
 ---
 

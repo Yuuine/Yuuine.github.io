@@ -1,8 +1,9 @@
 ---
 title: MySQL 基础操作
 date: 2025-08-04 21:45:37
-categories: [ sql, mysql ]
-tags: [ MySQL, database, sql ]
+description: 'MySQL 基础操作指南，包括 SQL 规范、数据类型、表操作等核心知识。'
+categories: [ SQL ]
+tags: [ mysql ]
 permalink: /sql/mysql_basic_operations/
 ---
 

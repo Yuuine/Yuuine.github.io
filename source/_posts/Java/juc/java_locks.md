@@ -1,8 +1,9 @@
 ---
 title: Java 锁
-categories: [ Java, juc ]
+categories: [ Java ]
 date: 2025-07-21 22:48:26
-tags: [ Java, juc, lock ]
+description: '全面介绍 Java 中的锁机制，从 synchronized 到 ReentrantLock，再到读写锁和条件变量。'
+tags: [ juc, lock ]
 permalink: /juc/java_locks/
 ---
 

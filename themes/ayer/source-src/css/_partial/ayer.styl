@@ -1,38 +1,102 @@
-@keyframes down
-      0%
-        margin-bottom 0
-        opacity 1
-      100%
-        margin-bottom -15px
-        opacity .1
+// 封面入场动画
+@keyframes coverFadeUp
+  0%
+    opacity 0
+    transform translate(-50%, -80%) translateY(30px)
+  100%
+    opacity 1
+    transform translate(-50%, -100%) translateY(0)
+
+@keyframes subtitleFadeUp
+  0%
+    opacity 0
+    transform translateY(20px)
+  100%
+    opacity 1
+    transform translateY(0)
+
+@keyframes arrowPulse
+  0%, 100%
+    opacity .6
+    transform translateY(0) scale(1)
+  50%
+    opacity 1
+    transform translateY(8px) scale(1.1)
+
+@keyframes logoFloat
+  0%, 100%
+    transform translateY(0)
+  50%
+    transform translateY(-8px)
+
+// 视差滚动
+.parallax-bg
+  position absolute
+  top -20%
+  left 0
+  width 100%
+  height 140%
+  object-fit cover
+  object-position center center
+  will-change transform
+
 //
 .cover-frame
   position relative
   min-width 100%
   height 100vh
+  overflow hidden
   .bg-box
     width 100%
     height 100%
-    &>img
+    &>.cover-media
       display block
       width 100vw
       height 100vh
       object-fit cover
       object-position center center
+      transition opacity .6s ease
+
+// 封面文字遮罩层
+.cover-overlay
+  position absolute
+  top 0
+  left 0
+  width 100%
+  height 100%
+  background linear-gradient(
+    180deg,
+    rgba(0,0,0,0) 0%,
+    rgba(0,0,0,0.15) 40%,
+    rgba(0,0,0,0.4) 100%
+  )
+  z-index 1
+  pointer-events none
+
 .cover-inner
   position absolute
   top 50%
   left 50%
   transform translate(-50%, -100%)
+  z-index 2
+  animation coverFadeUp 1.2s cubic-bezier(0.22, 1, 0.36, 1) both
   h1
-    font-family: Titillium Web,PingFang SC,Hiragino Sans GB,"Microsoft JhengHei","Microsoft YaHei",Helvetica Neue,Helvetica,Arial,sans-serif
+    font-family: "Inter","Titillium Web",PingFang SC,Hiragino Sans GB,"Microsoft JhengHei","Microsoft YaHei",Helvetica Neue,Helvetica,Arial,sans-serif
     font-size 7rem
+    font-weight 700
+    letter-spacing -0.02em
     margin 0
     opacity .95
+    text-shadow 0 2px 20px rgba(0,0,0,0.3)
   #subtitle-box
-    font-family: Titillium Web,PingFang SC,Hiragino Sans GB,"Microsoft JhengHei","Microsoft YaHei",Helvetica Neue,Helvetica,Arial,sans-serif
-    font-size 3rem
-    margin .5rem 0 1.5rem
+    font-family: "Inter","Titillium Web",PingFang SC,Hiragino Sans GB,"Microsoft JhengHei","Microsoft YaHei",Helvetica Neue,Helvetica,Arial,sans-serif
+    font-size 2.6rem
+    font-weight 300
+    letter-spacing 0.08em
+    margin .8rem 0 1.8rem
+    opacity 0
+    animation subtitleFadeUp 1s cubic-bezier(0.22, 1, 0.36, 1) .4s both
+    text-shadow 0 1px 10px rgba(0,0,0,0.2)
   a, &
     color white
     text-decoration none
@@ -40,20 +104,23 @@
     position relative
   .cover-logo
     width cover-logo-size
-
+    animation logoFloat 4s ease-in-out infinite
 
 .cover-learn-more
   position absolute
-  z-index 1
-  bottom 10px
+  z-index 3
+  bottom 30px
   left 0
   width 100%
+  opacity 0
+  animation subtitleFadeUp 1s ease 1.2s both
   a > i
-    font-size 3rem
-    color white
-    animation down 1s linear infinite
+    font-size 2.5rem
+    color rgba(255,255,255,0.7)
+    animation arrowPulse 2s ease-in-out infinite
+    transition color .3s ease
     &:hover
-      color sea
+      color #00c4b6
 
 .float_btns
   position sticky

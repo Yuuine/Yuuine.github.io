@@ -1,8 +1,9 @@
 ---
 title: 分布式搜索引擎 Elasticsearch
 date: 2025-07-09 15:24:48
-categories: [ distributed ]
-tags: [ Elasticsearch, Search, Vector Search, ES|QL, Distributed System, SpringBoot ]
+description: '介绍 Elasticsearch 分布式搜索引擎的核心概念、架构设计及应用场景，适用于全文搜索和日志分析。'
+categories: [ Distributed ]
+tags: [ elasticsearch, search ]
 permalink: /distributed/Elasticsearch/
 ---
 

@@ -1,8 +1,9 @@
 ---
 title: 线程池详解
-categories: [ Java, juc ]
+categories: [ Java ]
 date: 2025-07-10 18:47:28
-tags: [ Java, juc, thread pool ]
+description: '详解 Java 线程池的工作原理、核心参数配置及最佳实践，提升系统性能和响应速度。'
+tags: [ juc, thread-pool ]
 permalink: /juc/thread_pool_details/
 ---
 

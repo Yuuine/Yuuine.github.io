@@ -1,8 +1,9 @@
 ---
 title: 在 SpringBoot 中使用 Docker
 date: 2025-12-22 00:10:18
+description: '实战指南：如何在 SpringBoot 项目中集成 Docker，实现环境一致性和快速部署。'
 categories: [ DevOps ]
-tags: [ docker, 容器化, DevOps, CI/CD, SpringBoot, Java ]
+tags: [ docker, springboot, ci-cd ]
 permalink: /DevOps/UsingDockerInSpringBoot/
 ---
 

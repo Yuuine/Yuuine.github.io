@@ -1,8 +1,9 @@
 ---
 title: MySQL 日志详解
 date: 2025-08-09 17:34:50
-categories: [ sql, mysql ]
-tags: [ MySQL, database, sql ]
+description: '详解 MySQL 日志系统，包括错误日志、慢查询日志、binlog、redo log 和 undo log 的作用与使用。'
+categories: [ SQL ]
+tags: [ mysql ]
 permalink: /sql/mysql_log/
 ---
 

@@ -1,8 +1,9 @@
 ---
 title: 什么是 MCP ?
-categories: [ AI, MCP ]
+categories: [ AI ]
 date: 2026-03-25 22:48:59
-tags: [ MCP, AI, LLM ]
+description: '深入解析 Model Context Protocol (MCP)，了解这个被誉为 AI 领域 USB-C 接口的开放协议如何统一 LLM 与外部工具的通信规范。'
+tags: [ mcp, llm ]
 permalink: /ai/mcp/introduceMCP/
 math: true
 ---

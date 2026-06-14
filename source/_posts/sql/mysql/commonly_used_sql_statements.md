@@ -1,8 +1,9 @@
 ---
 title: SQL 常用语句
 date: 2025-08-03 21:59:26
-categories: [ sql, mysql ]
-tags: [ MySQL, database, sql ]
+description: '整理 SQL 常用语句，包括分组、聚合、连接查询等核心语法，适合快速查阅。'
+categories: [ SQL ]
+tags: [ mysql ]
 permalink: /sql/commonly_used_sql_statements/
 ---
 

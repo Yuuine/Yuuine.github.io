@@ -8,16 +8,16 @@ subtitle: ''
 description: '技术博客，分享 Java、分布式、DevOps、AI 等领域的知识与实践'
 keywords: 'blog,技术博客,Java,分布式,DevOps,AI,LLM,MCP'
 author: Yuuine
-language: en
+language: zh-CN
 timezone: ''
 
 # URL
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
-url: https://Yuuine.github.io
+url: https://yuuine.github.io
 # For GitHub Pages, you might need to adjust this if using custom domain
 permalink: :year/:month/:day/:title/
 # If using project pages (not user/organization pages), uncomment the next line
-# root: /Yuuine.github.io/
+# root: /yuuine.github.io/
 permalink_defaults:
 pretty_urls:
   trailing_index: true # Set to false to remove trailing 'index.html' from permalinks
@@ -115,6 +115,13 @@ feed:
 # Sitemap
 sitemap:
   path: sitemap.xml
+
+# Search
+search:
+  path: search.xml
+  field: post
+  content: true
+  format: html
 
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment

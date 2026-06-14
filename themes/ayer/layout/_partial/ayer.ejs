@@ -8,8 +8,15 @@
     <% } %>
   <div class="cover-frame">
     <div class="bg-box">
-      <img src="<%- theme.cover.path %>" alt="image frame" />
+      <% if (/\.(mp4|webm|ogg)$/i.test(theme.cover.path)) { %>
+        <video autoplay muted loop playsinline class="cover-media">
+          <source src="<%- theme.cover.path %>" />
+        </video>
+      <% } else { %>
+        <img src="<%- theme.cover.path %>" alt="image frame" class="cover-media" />
+      <% } %>
     </div>
+    <div class="cover-overlay"></div>
     <div class="cover-inner text-center text-white">
       <h1><a href="<%- url_for() %>"><%= config.title %></a></h1>
       <div id="subtitle-box">

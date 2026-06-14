@@ -1,8 +1,9 @@
 ---
 title: synchronized 详解
-categories: [ Java, juc ]
+categories: [ Java ]
 date: 2025-07-10 18:47:28
-tags: [ Java, juc, lock ]
+description: '深入解析 Java synchronized 关键字的三种应用方式、底层原理及锁升级机制。'
+tags: [ juc, synchronized ]
 permalink: /juc/synchronized/
 ---
 

@@ -1,8 +1,9 @@
 ---
 title: 什么是 RAG ?
-categories: [ AI, RAG ]
+categories: [ AI ]
 date: 2025-07-03 17:07:20
-tags: [ RAG ]
+description: '介绍检索增强生成 (RAG) 技术，了解如何通过外部知识库优化大语言模型的输出，缓解幻觉问题并突破静态知识边界。'
+tags: [ rag, llm ]
 permalink: /ai/rag/introduceRAG/
 math: true
 ---

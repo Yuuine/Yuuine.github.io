@@ -1,8 +1,9 @@
 ---
 title: RAG 常见问题
-categories: [ AI, RAG ]
+categories: [ AI ]
 date: 2025-11-15 20:32:39
-tags: [ RAG ]
+description: 'RAG (检索增强生成) 常见问题解答，涵盖工作流程、离线构建、在线推理等核心概念。'
+tags: [ rag, llm ]
 permalink: /ai/rag/RAG_FAQs/
 math: true
 ---
