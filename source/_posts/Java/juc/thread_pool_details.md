@@ -69,8 +69,8 @@ permalink: /juc/thread_pool_details/
 
 `ThreadPoolExecutor` 3 个最重要的参数：
 
-- `corePoolSize` : 任务队列未达到队列容量时，最大可以同时运行的线程数量。
-- `maximumPoolSize` : 任务队列中存放的任务达到队列容量的时候，当前可以同时运行的线程数量变为最大线程数。
+- `corePoolSize` : 线程池中始终保持存活的核心线程数，即使空闲也不会被回收（除非设置 `allowCoreThreadTimeOut`）。
+- `maximumPoolSize` : 线程池允许创建的最大线程数量。当核心线程都在忙碌且任务队列已满时，会创建新线程直到达到此数量。
 - `workQueue`: 新任务来的时候会先判断当前运行的线程数量是否达到核心线程数，如果达到的话，新任务就会被存放在队列中。
 
 `ThreadPoolExecutor`其他常见参数 :
@@ -87,7 +87,7 @@ permalink: /juc/thread_pool_details/
 | 队列                    | 特点          | 适用场景        |
 |-----------------------|-------------|-------------|
 | `ArrayBlockingQueue`  | 有界、性能稳定     | **推荐**      |
-| `LinkedBlockingQueue` | 默认无界        | **高风险 OOM** |
+| `LinkedBlockingQueue` | 默认容量 Integer.MAX_VALUE（近似无界） | **高风险 OOM** |
 | `SynchronousQueue`    | 不存任务，直接交给线程 | 高并发、短任务     |
 | `DelayQueue`          | 定时任务        | 定时线程池       |
 

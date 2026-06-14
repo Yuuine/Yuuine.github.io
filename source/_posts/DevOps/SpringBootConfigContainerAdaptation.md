@@ -14,24 +14,23 @@ permalink: /DevOps/SpringBootConfigContainerAdaptation/
 
 SpringBoot 有一套明确的配置文件加载顺序，从优先级高到低依次为：
 
-1. **命令行参数** - 通过 `--` 传递的参数
-2. **JNDI 属性** - 从 `java:comp/env` 获取的属性
-3. **系统环境变量** - 操作系统环境变量
-4. **JVM 系统属性** - 通过 `-D` 设置的属性
-5. **随机属性** - `random.*` 属性
-6. **jar 包外配置文件** - 如 `application.properties` (位于当前目录)
-7. **jar 包内配置文件** - 如 `application.properties` (位于 classpath)
-8. **@ConfigurationProperties 注解类** - 通过注解绑定的属性
-9. **默认属性** - 通过 `SpringApplication.setDefaultProperties` 设置
+1. **命令行参数** - 通过 `--` 传递的参数（如 `--server.port=9090`）
+2. **Java 系统属性** - 通过 `-D` 设置的属性（如 `-Dserver.port=9090`）
+3. **系统环境变量** - 操作系统环境变量（如 `SERVER_PORT=9090`）
+4. **`SPRING_APPLICATION_JSON`** - 内嵌 JSON 配置（环境变量或系统属性）
+5. **jar 包外 `config/` 目录** - `./config/application.properties`
+6. **jar 包外配置文件** - `./application.properties`
+7. **jar 包内 `config/` 目录** - `classpath:/config/application.properties`
+8. **jar 包内配置文件** - `classpath:/application.properties`（默认）
+9. **`@PropertySource` 注解** - 通过注解指定的自定义属性文件
+10. **默认属性** - 通过 `SpringApplication.setDefaultProperties` 设置
 
 ### 1.2 配置文件类型
 
-SpringBoot 支持多种配置文件格式：
+SpringBoot 支持多种配置文件格式（优先级从高到低）：
 
 - **Properties 文件**：`application.properties`
 - **YAML 文件**：`application.yml`
-- **JSON 文件**：`application.json`
-- **XML 文件**：`application.xml`
 
 ### 1.3 配置属性绑定
 
@@ -49,7 +48,6 @@ SpringBoot 通过以下方式实现配置属性绑定：
 
 ```yaml
 # Docker Compose 中使用环境变量
-version: '3.8'
 services:
   app:
     image: my-springboot-app:latest

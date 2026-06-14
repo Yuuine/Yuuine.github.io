@@ -53,7 +53,7 @@ SpringBoot 应用通常被打包为可执行 JAR 文件，内置了 Tomcat/Jetty
 
 ```
 # 使用官方 Eclipse Temurin 基础镜像
-FROM eclipse-temurin:25-jre-alpine
+FROM eclipse-temurin:21-jre-alpine
 
 # 设置工作目录
 WORKDIR /app
@@ -70,7 +70,7 @@ ENTRYPOINT ["java", "-Djava.security.egd=file:/dev/./urandom", "-jar", "/app/app
 
 #### **Dockerfile 关键配置说明**
 
-- **基础镜像选择**：推荐使用 `eclipse-temurin:25-jre-alpine`，体积更小
+- **基础镜像选择**：推荐使用 `eclipse-temurin:21-jre-alpine`（LTS 版本），体积更小
 - **JAR 文件复制**：将 Maven/Gradle 构建生成的 JAR 文件复制到容器
 - **JVM 参数优化**：`-Djava.security.egd=file:/dev/./urandom` 解决容器中随机数生成慢的问题
 - **启动命令**：使用 `ENTRYPOINT` 而非 `CMD`，确保参数传递正确
@@ -81,7 +81,7 @@ ENTRYPOINT ["java", "-Djava.security.egd=file:/dev/./urandom", "-jar", "/app/app
 
 ```
 # 构建阶段
-FROM maven:3.9-eclipse-temurin-25 AS build
+FROM maven:3.9-eclipse-temurin-21 AS build
 
 # 设置工作目录
 WORKDIR /app
@@ -94,7 +94,7 @@ COPY src ./src
 RUN mvn clean package -DskipTests
 
 # 运行阶段
-FROM eclipse-temurin:25-jre-alpine
+FROM eclipse-temurin:21-jre-alpine
 
 # 创建非 root 用户
 RUN addgroup -g 1001 -S appuser && \
@@ -148,7 +148,7 @@ services:
 
   # mysql 数据库服务
   db:
-    image: mysql:9
+    image: mysql:8.0
     environment:
       MYSQL_ROOT_PASSWORD: password
       MYSQL_DATABASE: myapp
@@ -243,14 +243,12 @@ logging:
 在容器环境中，需要特别注意 JVM 的内存和 CPU 设置：
 
 ```
-ENTRYPOINT ["java", 
+ENTRYPOINT ["java",
   "-Djava.security.egd=file:/dev/./urandom",
-  "-XX:+UseContainerSupport",           # 启用容器支持
+  "-XX:+UseContainerSupport",           # JDK 10+ 默认启用，感知容器内存/CPU 限制
   "-XX:MaxRAMPercentage=75.0",         # 使用容器内存的 75% 作为堆内存
   "-XX:InitialRAMPercentage=25.0",     # 使用容器内存的 25% 作为初始堆内存
   "-XX:+UseG1GC",                      # 使用 G1 垃圾收集器
-  "-XX:+UnlockExperimentalVMOptions", 
-  "-XX:+UseContainerSupport", 
   "-Dspring.profiles.active=docker",
   "-jar", "/app/app.jar"]
 ```
@@ -263,7 +261,7 @@ SpringBoot Actuator 提供了丰富的监控端点，可以配置 Docker 健康�
 
 ```
 HEALTHCHECK --interval=30s --timeout=3s --start-period=60s --retries=3 \
-  CMD curl -f http://localhost:8080/actuator/health || exit 1
+  CMD wget -q --spider http://localhost:8080/actuator/health || exit 1
 ```
 
 ### 4.2 构建与部署脚本
@@ -299,12 +297,12 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    
-    - name: Set up JDK 25
-      uses: actions/setup-java@v2
+    - uses: actions/checkout@v4
+
+    - name: Set up JDK 21
+      uses: actions/setup-java@v4
       with:
-        java-version: '25'
+        java-version: '21'
         distribution: 'temurin'
     
     - name: Build with Maven

@@ -27,11 +27,11 @@ Java 提供了多种锁的实现方式，从最基本的 `synchronized` 关键�
 在 Java 中，**所有基于阻塞的互斥锁本质上都是悲观锁**，因为在操作之前就获取锁，阻止其他线程进入临界区。
 
 示例：
-> `sysnchronized`
+> `synchronized`
 > `ReentrantLock`
 > 数据库行锁、表锁
 
-下文会详解 `sysnchronized` 和 `reentrantLock`。
+下文会详解 `synchronized` 和 `ReentrantLock`。
 
 **乐观锁**
 
@@ -44,7 +44,7 @@ Java 并发包大量使用 CAS 实现无锁并发：
 |----|------|
 | `AtomicInteger` | 基于 `Unsafe.compareAndSwapInt()` |
 | `AtomicReference` | 支持对象引用的 CAS |
-| `ConcurrentHashMap` | put 操作中使用 CAS + synchronized 分段锁 |
+| `ConcurrentHashMap` | put 操作中使用 CAS + synchronized（锁单个 Node/桶） |
 | `StampedLock`（乐观读） | 支持 tryOptimisticRead() |
 
 
@@ -150,7 +150,7 @@ try {
 
 当锁被释放时，新来的线程可以直接尝试抢占锁，而不必排队。 只有抢占失败，才加入等待队列尾部。
 
-以`ReentrantLock`为例，默认情况下是公平锁，可以通过构造函数指定非公平锁。
+以`ReentrantLock`为例，默认情况下是**非公平锁**，可以通过构造函数指定公平锁。
 
 ```Java
 // 非公平锁（默认）
@@ -160,7 +160,7 @@ ReentrantLock nonFairLock = new ReentrantLock();
 ReentrantLock fairLock = new ReentrantLock(true);
 ```
 
-> `synchironized` 锁始终是非公平的。
+> `synchronized` 锁始终是非公平的。
 
 ---
 
@@ -181,7 +181,7 @@ ReentrantLock fairLock = new ReentrantLock(true);
 
 为了让当前线程“稍等一下”，我们需要让当前线程进行自旋，如果在自旋完成后前面锁定同步资源的线程已经释放了锁，那么当前线程就可以不用阻塞而是直接获取同步资源，从而避免切换线程的开销。这就是自旋锁。
 
-自旋锁本身是有缺点的，它不能代替阻塞。自旋等待虽然避免了线程切换的开销，但它要占用处理器时间。如果锁被占用的时间很短，自旋等待的效果就会非常好。反之，如果锁被占用的时间很长，那么自旋的线程只会白白浪费处理器资源。所以，自旋等待的时间必须要有一定的限度，如果自旋超过了限定次数（默认是 10 次，可以使用 `-XX:PreBlockSpin` 来更改）没有成功获得锁，就应当挂起线程。
+自旋锁本身是有缺点的，它不能代替阻塞。自旋等待虽然避免了线程切换的开销，但它要占用处理器时间。如果锁被占用的时间很短，自旋等待的效果就会非常好。反之，如果锁被占用的时间很长，那么自旋的线程只会白白浪费处理器资源。所以，自旋等待的时间必须要有一定的限度，如果自旋超过了限定次数（默认是 10 次，可以使用 `-XX:PreBlockSpin` 来更改）没有成功获得锁，就应当挂起线程。需要注意的是，JDK 6+ 引入了自适应自旋锁，自旋次数不再固定，而是由 JVM 根据上次自旋结果动态调整。
 
 自旋锁的实现原理同样也是 CAS，`AtomicInteger` 中调用 `unsafe` 进行自增操作的源码中的 `do-while` 循环就是一个自旋操作，如果修改数值失败则通过循环来执行自旋，直至修改成功。
 

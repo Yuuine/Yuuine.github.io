@@ -276,7 +276,7 @@ SQL 允许在 `JOIN` 左边加上一些修饰性的关键词，从而形成不�
 | INNER JOIN 内连接                       | （默认连接方式）只有当两个表都存在满足条件的记录时才会返回行。                   |
 | LEFT JOIN / LEFT OUTER JOIN 左(外)连接   | 返回左表中的所有行，即使右表中没有满足条件的行也是如此。                      |
 | RIGHT JOIN / RIGHT OUTER JOIN 右(外)连接 | 返回右表中的所有行，即使左表中没有满足条件的行也是如此。                      |
-| FULL JOIN / FULL OUTER JOIN 全(外)连接   | 只要其中有一个表存在满足条件的记录，就返回行。                           |
+| FULL JOIN / FULL OUTER JOIN 全(外)连接   | 只要其中有一个表存在满足条件的记录，就返回行。**注意：MySQL 不支持此语法**，需通过 `LEFT JOIN UNION RIGHT JOIN` 模拟实现。 |
 | SELF JOIN                            | 将一个表连接到自身，就像该表是两个表一样。为了区分两个表，在 SQL 语句中需要至少重命名一个表。 |
 | CROSS JOIN                           | 交叉连接，从两个或者多个连接表中返回记录集的笛卡尔积。                       
 

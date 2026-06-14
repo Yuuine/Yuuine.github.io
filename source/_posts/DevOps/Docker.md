@@ -278,6 +278,7 @@ Docker 提供多种资源限制选项：
 
 ```bash
 # 限制 CPU 和内存
+# --memory-swap 设置的是 内存+swap 的总量，1g - 512m = 512m swap
 docker run -m 512m --cpus=1.5 --memory-swap=1g myapp
 
 # 限制磁盘 I/O

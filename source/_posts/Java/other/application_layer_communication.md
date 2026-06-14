@@ -312,7 +312,7 @@ WebFlux 本身不处理 I/O，它依赖**全链路响应式组件**才能发挥�
 
 | 功能       | 响应式方案                                  | 阻塞式方案（不兼容 WebFlux）                           |
 |----------|----------------------------------------|----------------------------------------------|
-| HTTP 客户端 | **WebClient**（推荐）                      | RestTemplate（已废弃）                            |
+| HTTP 客户端 | **WebClient**（推荐）                      | RestTemplate（官方推荐 WebClient 替代）                |
 | 数据库访问    | **R2DBC**（关系型）、MongoDB Reactive Driver | JDBC、JPA/Hibernate                           |
 | 消息队列     | Reactor Kafka、Reactive RabbitMQ        | JMS、Spring Kafka（阻塞）                         |
 | 网络层      | **Netty**（默认）、Undertow                 | Tomcat、Jetty（仅支持 Servlet，不能用于 WebFlux 非阻塞模式） |
@@ -608,7 +608,7 @@ public class WebSocketController {
 | **协议层级**  | 应用层（独立协议）       | 应用层            | 基于 HTTP 流                |
 | **连接持久性** | 持久              | 短连接 / 挂起连接     | 持久 HTTP 流                |
 | **数据格式**  | 文本 + 二进制        | 任意             | 仅文本（UTF-8）               |
-| **浏览器支持** | IE10+           | 全部             | IE 不支持                   |
+| **浏览器支持** | IE11+           | 全部             | IE 不支持                   |
 | **服务器压力** | 低（单连接复用）        | 高（轮询） / 中（长轮询） | 中（每个连接占线程）               |
 | **适用场景**  | 聊天、游戏、协同编辑、实时交易 | 低频更新、兼容旧系统     | 实时通知、日志流、股票行情            |
 

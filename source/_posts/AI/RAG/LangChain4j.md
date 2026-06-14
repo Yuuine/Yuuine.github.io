@@ -42,7 +42,7 @@ LangChain4j 是 Java 版本的 LangChain 库，为 Java 开发者提供了构建
         <dependency>
             <groupId>dev.langchain4j</groupId>
             <artifactId>langchain4j-bom</artifactId>
-            <version>1.9.1</version>
+            <version>1.16.2</version>
             <type>pom</type>
             <scope>import</scope>
         </dependency>
@@ -127,7 +127,7 @@ public class StreamingChatExample {
                 .modelName("gpt-4o-mini")
                 .build();
         
-        model.generate("请写一首诗", token -> System.out.print(token.content()));
+        model.generate("请写一首诗", token -> System.out.print(token));
     }
 }
 ```

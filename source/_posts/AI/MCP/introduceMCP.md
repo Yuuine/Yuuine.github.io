@@ -46,7 +46,7 @@ MCP 的核心价值在于**解耦和标准化**——一次开发的 MCP Server�
 
 ## 三、MCP 的四大核心能力
 
-MCP v1.0 定义了四种核心能力类型：
+MCP 规范定义了四种核心能力类型：
 
 | **能力** | **核心作用** | **实际场景举例** | **注意事项** |
 |----------|-------------|-----------------|-------------|
@@ -82,7 +82,7 @@ flowchart TB
 
 这是 MCP 学习过程中的高频问题，需要从**定位、层次、关系**三个维度理解：
 
-| 对比维度 | **MCP v1.0** | **Function Calling** | **Agent** |
+| 对比维度 | **MCP** | **Function Calling** | **Agent** |
 |----------|-------------|---------------------|-----------|
 | **定位** | **协议标准** | **调用机制** | **系统概念** |
 | **本质** | 应用层网络协议（JSON-RPC 2.0） | LLM 推理层能力（NL→JSON 映射） | 任务执行系统 |
@@ -146,12 +146,12 @@ flowchart TB
 
 ### 2. 核心组件详解
 
-| 组件 | 定位 | 职责 | 代表产品 | 性能指标 |
-|------|------|------|---------|---------|
-| **MCP Host** | 用户交互层 | 运行 AI 应用，托管 LLM，管理 MCP Client | Claude Desktop、VS Code (Cline)、Cursor | Server 崩溃时需自动重连；建议支持 50+ 并发 Server 连接 |
-| **MCP Client** | 连接管理层 | 与 MCP Server 建立 1:1 连接，转发 JSON-RPC 请求 | 集成在 Host 内部 | 断连时需指数退避重连（初始 1s，最大 60s）；连接建立 P99 < 100ms |
-| **MCP Server** | 能力暴露层 | 实现 MCP 协议，暴露 Resources/Tools 等能力 | 开发者使用 SDK 开发 | Tool 调用 P99 < 200ms，Resources 加载 P99 < 500ms |
-| **Data Source** | 数据/服务层 | 提供实际数据或执行操作 | 文件系统、数据库、外部 API | 需实现连接池和熔断，防止级联故障 |
+| 组件 | 定位 | 职责 | 代表产品 |
+|------|------|------|---------|
+| **MCP Host** | 用户交互层 | 运行 AI 应用，托管 LLM，管理 MCP Client | Claude Desktop、VS Code (Cline)、Cursor |
+| **MCP Client** | 连接管理层 | 与 MCP Server 建立 1:1 连接，转发 JSON-RPC 请求 | 集成在 Host 内部 |
+| **MCP Server** | 能力暴露层 | 实现 MCP 协议，暴露 Resources/Tools 等能力 | 开发者使用 SDK 开发 |
+| **Data Source** | 数据/服务层 | 提供实际数据或执行操作 | 文件系统、数据库、外部 API |
 
 **重要特性**：
 
@@ -229,8 +229,7 @@ sequenceDiagram
         "text": "文件内容..."
       }
     ]
-  },
-  "error": null
+  }
 }
 ```
 
