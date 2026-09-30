@@ -113,7 +113,7 @@
   /* ---- 运动 -------------------------------------------------------------- */
   --dur-fast: 140ms;
   --dur: 260ms;
-  --dur-slow: 520ms;
+  --dur-theme: 420ms;      /* 明暗切换。View Transition 的时长读这个值 */
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
 
@@ -159,28 +159,46 @@ html.is-dark-mode {
 }
 
 /* ==========================================================================
-   尊重系统「减弱动态效果」——动效全部降级为即时
+   明暗切换的过渡
+   走 View Transitions，不走 transition。
+   原因：color 是可继承属性，只要祖先在过渡，整棵样式树每帧都要重算 ——
+   实测本站 342 个元素下，哪怕只给 html/body 挂 transition 也要 ~560ms 样式重算
+   （完全不过渡是 5ms），收窄选择器没有用。View Transitions 由合成器完成，~80ms。
+   旧的快照保持不透明，新主题淡入盖上去 —— 双向各 50% 的交叉淡化会让中间态发灰。
+   ========================================================================== */
+
+::view-transition-old(root) {
+  animation: none;
+}
+
+::view-transition-new(root) {
+  animation: theme-in var(--dur-theme) var(--ease-in-out);
+}
+
+@keyframes theme-in {
+  from {
+    opacity: 0;
+  }
+}
+
+/* ==========================================================================
+   尊重系统「减弱动态效果」——动效全部降级为即时。
+   光把时长变量改成 1ms 不够：无限循环动画写死了时长（如 Hero 的滚动提示），
+   必须连 animation 一起压掉。
    ========================================================================== */
 
 @media (prefers-reduced-motion: reduce) {
   :root {
     --dur-fast: 1ms;
     --dur: 1ms;
-    --dur-slow: 1ms;
+    --dur-theme: 1ms;
   }
-}
 
-html.has-reduced-motion {
-  --dur-fast: 1ms;
-  --dur: 1ms;
-  --dur-slow: 1ms;
-}
-
-html.has-reduced-motion *,
-html.has-reduced-motion *::before,
-html.has-reduced-motion *::after {
-  animation-duration: 1ms !important;
-  animation-iteration-count: 1 !important;
-  transition-duration: 1ms !important;
-  scroll-behavior: auto !important;
+  *,
+  *::before,
+  *::after {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 1ms !important;
+  }
 }

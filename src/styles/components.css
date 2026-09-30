@@ -46,7 +46,10 @@
 .brand {
   display: inline-flex;
   align-items: center;
+  /* 撑满页头高度：只按文字行高算的话，可点区域比看上去小一圈 */
+  align-self: stretch;
   gap: 0.55rem;
+  padding-right: var(--sp-3);
   color: var(--c-headline);
   font-weight: var(--fw-bold);
   font-size: var(--fs-4);
@@ -112,7 +115,8 @@
   gap: var(--sp-2);
 }
 
-.header__icon {
+/* 图标按钮：页头 GitHub 链接与明暗切换共用 */
+.icon-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -124,98 +128,104 @@
     background var(--dur-fast) var(--ease-out);
 }
 
-.header__icon:hover {
+.icon-btn:hover {
   color: var(--c-headline);
   background: var(--c-bg-sunk);
 }
 
-/* ---- 外观设置面板 -------------------------------------------------------- */
-
-.controls {
-  position: relative;
+/* 明暗图标互换。显示哪个由 <html> 的 class 决定，与内联主题脚本同一份真相，
+   组件不需要在挂载后纠正图标 */
+.icon-btn__sun {
+  display: none;
 }
 
-.controls__trigger {
+html.is-dark-mode .icon-btn__sun {
+  display: block;
+}
+
+html.is-dark-mode .icon-btn__moon {
+  display: none;
+}
+
+/* ---- 语言下拉 ------------------------------------------------------------ */
+
+.lang {
+  position: relative;
+  margin-right: var(--sp-2);
+  padding-right: var(--sp-3);
+  border-right: var(--border-dotted);
+}
+
+.lang__trigger {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  width: 2.1rem;
-  height: 2.1rem;
+  gap: 0.3rem;
+  padding: 0.35rem 0.5rem;
   border-radius: var(--radius);
+  font-size: var(--fs-1);
   color: var(--c-muted);
+  cursor: pointer;
+  /* 去掉 summary 默认的三角标记（Firefox 用 list-style，WebKit 用私有伪元素） */
+  list-style: none;
   transition: color var(--dur-fast) var(--ease-out),
-    background var(--dur-fast) var(--ease-out), transform var(--dur-slow) var(--ease-out);
+    background var(--dur-fast) var(--ease-out);
 }
 
-.controls__trigger:hover {
+.lang__trigger::-webkit-details-marker {
+  display: none;
+}
+
+.lang__trigger:hover,
+.lang[open] .lang__trigger {
   color: var(--c-headline);
   background: var(--c-bg-sunk);
-  transform: rotate(45deg);
 }
 
-.controls__panel {
+.lang[open] .lang__trigger {
+  color: var(--c-1st);
+}
+
+.lang__chevron {
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+
+.lang[open] .lang__chevron {
+  transform: rotate(180deg);
+}
+
+.lang__menu {
   position: absolute;
-  top: calc(100% + 0.6rem);
-  right: 0;
+  top: calc(100% + 0.5rem);
+  /* 对齐的是触发器的右边缘，不是 .lang 的 —— .lang 右侧还留了分隔线的间距 */
+  right: var(--sp-3);
   z-index: 60;
-  width: 13rem;
-  padding: var(--sp-4);
+  min-width: 9.5rem;
+  margin: 0;
+  padding: var(--sp-2);
+  list-style: none;
   background: var(--c-surface);
   border: 1px solid var(--c-line);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-lg);
-  animation: panelIn var(--dur) var(--ease-out);
 }
 
-@keyframes panelIn {
-  from {
-    opacity: 0;
-    transform: translateY(-6px);
-  }
-}
-
-.controls__panel fieldset {
-  border: none;
-  padding: 0;
-}
-
-.controls__panel fieldset + fieldset {
-  margin-top: var(--sp-4);
-}
-
-.controls__panel legend {
-  padding: 0 0 var(--sp-2);
-  font-family: var(--font-mono);
-  font-size: var(--fs-1);
-  letter-spacing: var(--ls-wide);
-  text-transform: uppercase;
-  color: var(--c-muted);
-}
-
-.controls__row {
-  display: flex;
-  gap: var(--sp-2);
-}
-
-.controls__row button {
-  flex: 1;
-  padding: 0.4em 0.6em;
+.lang__menu a {
+  display: block;
+  padding: 0.4rem 0.65rem;
+  border-radius: var(--radius);
   font-size: var(--fs-2);
   color: var(--c-muted);
-  border: 1px solid var(--c-line);
-  border-radius: var(--radius);
-  transition: all var(--dur-fast) var(--ease-out);
+  white-space: nowrap;
 }
 
-.controls__row button:hover {
+.lang__menu a:hover {
   color: var(--c-headline);
-  border-color: var(--c-line-strong);
+  background: var(--c-bg-sunk);
 }
 
-.controls__row button.is-active {
-  color: var(--c-1);
-  background: var(--c-1st);
-  border-color: var(--c-1st);
+.lang__menu a.is-active {
+  color: var(--c-1st);
+  font-weight: var(--fw-medium);
 }
 
 /* 窄屏：导航改为可横向滚动的紧凑形式，不隐藏 —— 隐藏会让手机用户无法跳转 */
@@ -279,8 +289,6 @@
   overflow: hidden;
   word-break: break-word;
   hyphens: auto;
-  transition: opacity var(--dur-slow) var(--ease-out),
-    background var(--dur-slow) var(--ease-out);
 }
 
 /* 三档色阶：a/b 是主色，c 为淡化过渡。
@@ -328,37 +336,12 @@
   max-width: 46rem;
 }
 
-.hero__eyebrow {
-  font-family: var(--font-mono);
-  font-size: var(--fs-1);
-  letter-spacing: 0.24em;
-  text-transform: uppercase;
-  color: var(--c-muted);
-}
-
 .hero__title {
   margin-top: var(--sp-3);
   font-size: clamp(3rem, 9vw, 7rem);
   line-height: 0.94;
   letter-spacing: -0.045em;
   color: var(--c-headline);
-}
-
-.hero__subtitle {
-  margin-top: var(--sp-4);
-  font-size: var(--fs-4);
-  color: var(--c-muted);
-}
-
-.hero__actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--sp-3);
-  justify-content: center;
-}
-
-.hero__overlay .hero__actions {
-  margin-top: var(--sp-6);
 }
 
 /* 滚动提示 */

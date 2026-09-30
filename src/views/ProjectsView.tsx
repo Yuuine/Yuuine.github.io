@@ -1,30 +1,21 @@
-import type { Metadata } from 'next';
 import { projects } from '@/data/projects';
-import { buildMetadata } from '@/lib/seo';
+import { getDictionary, type Locale } from '@/lib/i18n';
 
-export const metadata: Metadata = buildMetadata({
-  path: '/projects/',
-  title: '项目',
-  description: '做过的项目与作品，包含技术选型、设计取舍和实现细节。',
-});
-
-export default function ProjectsPage() {
+export default function ProjectsView({ locale }: { locale: Locale }) {
+  const dict = getDictionary(locale);
   const sorted = [...projects].sort((a, b) => b.year.localeCompare(a.year));
 
   return (
     <div className="container">
       <header className="page-head">
-        <p className="eyebrow">Projects</p>
-        <h1>项目</h1>
-        <p className="lead">
-          做过的东西，以及当时为什么这么选。数据在 <code>src/data/projects.ts</code>，
-          加一条就多一个。
-        </p>
+        <p className="eyebrow">{dict.projects.eyebrow}</p>
+        <h1>{dict.projects.title}</h1>
+        <p className="lead">{dict.projects.lead}</p>
       </header>
 
       {sorted.length === 0 ? (
         <p className="lead" style={{ paddingBottom: 'var(--sp-8)' }}>
-          还没有录入项目。
+          {dict.projects.empty}
         </p>
       ) : (
         <ul className="project-list">
@@ -48,12 +39,12 @@ export default function ProjectsPage() {
                 <div className="project__links">
                   {p.link && (
                     <a href={p.link} target="_blank" rel="noreferrer noopener">
-                      线上地址 ↗
+                      {dict.projects.live}
                     </a>
                   )}
                   {p.repo && (
                     <a href={p.repo} target="_blank" rel="noreferrer noopener">
-                      源码 ↗
+                      {dict.projects.repo}
                     </a>
                   )}
                 </div>

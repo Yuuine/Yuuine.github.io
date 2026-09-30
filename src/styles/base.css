@@ -15,7 +15,15 @@
 
 html {
   -webkit-text-size-adjust: 100%;
-  scroll-behavior: smooth;
+
+  /*
+   * 不要给 html 加 scroll-behavior: smooth。
+   * 它是全局的，会把路由的滚动复位也变成动画：Next 导航时用 scrollIntoView 复位，
+   * 而动画目标一旦按旧布局算出来，DOM 换掉后就会停在错误位置
+   * （实测点 logo 回首页会停在 687px 而不是顶部）。
+   *
+   * scroll-padding-top 保留 —— 它只影响锚点落点，让目标不被吸顶页头盖住。
+   */
   scroll-padding-top: calc(var(--header-h) + var(--sp-4));
 }
 
@@ -153,10 +161,6 @@ input:focus-visible,
   padding-block: var(--sp-8);
 }
 
-.section + .section {
-  border-top: var(--border-dotted);
-}
-
 .stack > * + * {
   margin-top: var(--sp-4);
 }
@@ -231,6 +235,14 @@ input:focus-visible,
   color: var(--c-1st);
   background: transparent;
   border-color: var(--c-1st);
+}
+
+/* 按钮组：横排、可换行、居中 */
+.btn-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-3);
+  justify-content: center;
 }
 
 /* ==========================================================================
