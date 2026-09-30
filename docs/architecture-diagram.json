@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "Yuuine 个人站 · 架构",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "output": "architecture-diagram.html",
+    "viewBox": [1240, 700]
+  },
+  "components": [
+    { "id": "actions", "type": "cloud", "label": "GitHub Actions", "sublabel": "push main 触发", "pos": [1000, 24], "size": [170, 64] },
+    { "id": "content", "type": "database", "label": "内容源", "sublabel": "src/content", "pos": [40, 160], "size": [170, 64], "tag": "19 篇 Markdown" },
+    { "id": "lib", "type": "backend", "label": "领域层", "sublabel": "src/lib", "pos": [280, 160], "size": [170, 64], "tag": "纯函数 · 无 JSX" },
+    { "id": "components", "type": "frontend", "label": "展示层", "sublabel": "src/components", "pos": [520, 160], "size": [170, 64], "tag": "纯 UI" },
+    { "id": "app", "type": "backend", "label": "路由层", "sublabel": "src/app", "pos": [760, 160], "size": [170, 64], "tag": "页面 + metadata" },
+    { "id": "out", "type": "cloud", "label": "静态产物", "sublabel": "out/", "pos": [1000, 160], "size": [170, 64], "tag": "零服务端" },
+    { "id": "pages", "type": "cloud", "label": "GitHub Pages", "sublabel": "www.yuuine.cn", "pos": [1000, 420], "size": [170, 64] },
+    { "id": "cf", "type": "cloud", "label": "Cloudflare", "sublabel": "DNS · 反代 · 缓存", "pos": [760, 420], "size": [170, 64] },
+    { "id": "visitor", "type": "external", "label": "访客", "sublabel": "浏览器", "pos": [520, 420], "size": [170, 64] }
+  ],
+  "connections": [
+    { "id": "content-to-lib", "from": "content", "to": "lib", "label": "读取校验", "variant": "emphasis" },
+    { "id": "lib-to-components", "from": "lib", "to": "components", "variant": "emphasis" },
+    { "id": "components-to-app", "from": "components", "to": "app", "variant": "emphasis" },
+    { "id": "actions-to-out", "from": "actions", "to": "out", "label": "构建", "variant": "dashed", "labelAt": [1085, 124] },
+    { "id": "app-to-out", "from": "app", "to": "out", "label": "静态导出", "variant": "emphasis" },
+    { "id": "out-to-pages", "from": "out", "to": "pages", "label": "部署", "labelAt": [1085, 322] },
+    { "id": "pages-to-cf", "from": "pages", "to": "cf", "label": "回源" },
+    { "id": "cf-to-visitor", "from": "cf", "to": "visitor", "label": "HTTPS" }
+  ],
+  "cards": [
+    { "dot": "cyan", "title": "分层规则", "items": ["依赖单向向下：app → components → lib → content", "禁止反向引用，这是防止结构腐化的硬约束"] },
+    { "dot": "emerald", "title": "构建期完成一切", "items": ["Markdown 渲染、语法高亮、数学公式都在构建时做完", "运行期无服务端、无数据库、无 API"] },
+    { "dot": "rose", "title": "两条硬约束", "items": ["必须用 npm run dev / build，图标由 prebuild 钩子生成", "logo 路径只存在于 src/lib/logo.mjs 一处"] }
+  ]
+}

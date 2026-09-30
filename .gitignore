@@ -1,53 +1,86 @@
-# Hexo 生成的静态文件
-/public
-/.deploy_git
-**/db.json
-
-# Node.js 依赖（由 package-lock.json / yarn.lock 管理即可）
+# ==========================================================================
+# 依赖
+# ==========================================================================
 /node_modules
+/.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
 
-# 日志和调试文件
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-.lerna-debug.log*
+# ==========================================================================
+# 构建产物（静态导出产物在 out/，由 CI 生成，不入库）
+# ==========================================================================
+/.next/
+/out/
+/build
+/coverage
 
-# 编辑器/IDE 临时文件
+# 品牌资产由 scripts/build-brand.mjs 从 src/lib/logo.mjs 生成，不入库
+/public/logo.svg
+/public/favicon.svg
+/public/favicon.ico
+/public/apple-touch-icon.png
+
+# archify 的 visual-check 证据文件（截图与回执），可随时用 --json 重新生成
+docs/*.visual-check.*
+
+# ==========================================================================
+# 环境变量
+# ==========================================================================
+.env*
+!.env.example
+
+# ==========================================================================
+# 部署平台
+# ==========================================================================
+.vercel
+.netlify
+
+# ==========================================================================
+# TypeScript
+# ==========================================================================
+*.tsbuildinfo
+next-env.d.ts
+
+# ==========================================================================
+# 本地工具与编辑器（只属于本机，不随仓库走）
+# ==========================================================================
+.idea/
+.vscode/
+.trae
 .DS_Store
 Thumbs.db
-.vscode/
-.idea
-.trae
 *.swp
 *.swo
 *.sublime-project
 *.sublime-workspace
 
-# 环境变量文件
-.env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
+# 本地 AI 助手配置
+.claude/
+.codegraph/
+CLAUDE.md
+*.local.json
 
-# macOS 资源派生文件
-._*
-
-# Windows 特有文件
-ehthumbs_vista.db
-Desktop.ini
-$RECYCLE.BIN/
-System Volume Information/
-
-# 其他临时/缓存文件
+# ==========================================================================
+# 日志与临时文件
+# ==========================================================================
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+*.log
 *.tmp
 *.bak
 *.orig
-*.log
 
-# Local AI / editor overrides
-.claude/
-.codegraph/
-*.local.json
-CLAUDE.md
-docs/
+# ==========================================================================
+# 注意：以下目录是项目的一部分，必须入库，不要加进来
+#   src/          源码
+#   scripts/      内容迁移等一次性工具
+#   docs/         架构文档与构建计划
+#   .github/      CI 工作流
+#   AGENTS.md     Next.js 版本匹配的 agent 规则（官方建议提交）
+# ==========================================================================

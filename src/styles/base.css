@@ -1,0 +1,393 @@
+/* ==========================================================================
+   基础层 —— reset、排版、正文样式
+   中文排版是本层的重点：正文行高 1.75，标点挤压，代码标识符不撑破容器。
+   ========================================================================== */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--header-h) + var(--sp-4));
+}
+
+body {
+  font-family: var(--font-sans);
+  font-size: var(--fs-3);
+  line-height: var(--lh-body);
+  color: var(--c-text);
+  background: var(--c-bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-synthesis-weight: none;
+  text-rendering: optimizeLegibility;
+  overflow-wrap: break-word;
+}
+
+img,
+picture,
+svg,
+video,
+canvas {
+  display: block;
+  max-width: 100%;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+/* ---- 标题 ---------------------------------------------------------------- */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--c-headline);
+  font-weight: var(--fw-bold);
+  line-height: var(--lh-heading);
+  letter-spacing: var(--ls-tight);
+  text-wrap: balance;
+}
+
+h1 {
+  font-size: var(--fs-7);
+  line-height: var(--lh-tight);
+}
+h2 {
+  font-size: var(--fs-6);
+}
+h3 {
+  font-size: var(--fs-5);
+  letter-spacing: -0.012em;
+}
+h4 {
+  font-size: var(--fs-4);
+  letter-spacing: 0;
+}
+
+p,
+li {
+  text-wrap: pretty;
+}
+
+/* ---- 链接 ---------------------------------------------------------------- */
+
+a {
+  color: var(--c-link);
+  text-decoration: none;
+  text-underline-offset: 0.22em;
+  text-decoration-thickness: 1px;
+  transition: color var(--dur-fast) var(--ease-out);
+}
+
+a:hover {
+  color: var(--c-link-hover);
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--c-1st);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+
+/* ---- 选区与滚动条 -------------------------------------------------------- */
+
+::selection {
+  background: var(--c-1st);
+  color: var(--c-1);
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--c-bg-sunk);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--c-line-strong);
+  border-radius: 99px;
+  border: 3px solid var(--c-bg-sunk);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--c-1st);
+}
+
+/* ---- 布局工具 ------------------------------------------------------------ */
+
+.container {
+  width: var(--width-content);
+  margin-inline: auto;
+}
+
+.container--text {
+  width: min(94vw, var(--width-text));
+  margin-inline: auto;
+}
+
+.section {
+  padding-block: var(--sp-8);
+}
+
+.section + .section {
+  border-top: var(--border-dotted);
+}
+
+.stack > * + * {
+  margin-top: var(--sp-4);
+}
+
+/* 小标签：区块标题上方的全大写引导词 */
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  font-family: var(--font-mono);
+  font-size: var(--fs-1);
+  font-weight: var(--fw-medium);
+  letter-spacing: var(--ls-wide);
+  text-transform: uppercase;
+  color: var(--c-muted);
+}
+
+.eyebrow::before {
+  content: "";
+  width: 1.75rem;
+  height: 1px;
+  background: var(--c-1st);
+}
+
+.section-title {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--sp-4);
+  flex-wrap: wrap;
+  margin-bottom: var(--sp-6);
+}
+
+.lead {
+  font-size: var(--fs-4);
+  line-height: 1.6;
+  color: var(--c-muted);
+  max-width: var(--width-text);
+  text-wrap: pretty;
+}
+
+/* ---- 按钮 ---------------------------------------------------------------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  padding: 0.6em 1.2em;
+  font-size: var(--fs-2);
+  font-weight: var(--fw-medium);
+  letter-spacing: 0.01em;
+  color: var(--c-1);
+  background: var(--c-1st);
+  border-radius: var(--radius);
+  transition: background var(--dur-fast) var(--ease-out),
+    transform var(--dur-fast) var(--ease-out);
+}
+
+.btn:hover {
+  color: var(--c-1);
+  background: var(--c-1st-bright);
+  transform: translateY(-1px);
+}
+
+.btn--ghost {
+  color: var(--c-text);
+  background: transparent;
+  border: 1px solid var(--c-line-strong);
+}
+
+.btn--ghost:hover {
+  color: var(--c-1st);
+  background: transparent;
+  border-color: var(--c-1st);
+}
+
+/* ==========================================================================
+   正文（文章页）
+   ========================================================================== */
+
+.prose {
+  font-size: var(--fs-3);
+}
+
+.prose > * + * {
+  margin-top: var(--sp-5);
+}
+
+.prose h2 {
+  margin-top: var(--sp-8);
+  padding-top: var(--sp-4);
+  border-top: var(--border-dotted);
+  font-size: var(--fs-6);
+}
+
+.prose h3 {
+  margin-top: var(--sp-7);
+}
+
+.prose h4 {
+  margin-top: var(--sp-6);
+}
+
+.prose ul,
+.prose ol {
+  padding-left: 1.4em;
+}
+
+.prose li + li {
+  margin-top: 0.4em;
+}
+
+.prose li::marker {
+  color: var(--c-1st);
+}
+
+.prose a {
+  text-decoration: underline;
+  text-decoration-color: var(--c-1st-muted);
+}
+
+.prose a:hover {
+  text-decoration-color: currentColor;
+}
+
+.prose strong {
+  font-weight: var(--fw-bold);
+  color: var(--c-headline);
+}
+
+.prose hr {
+  border: none;
+  border-top: var(--border-dotted);
+  margin-block: var(--sp-7);
+}
+
+.prose blockquote {
+  padding: var(--sp-4) var(--sp-5);
+  border-left: 3px solid var(--c-1st);
+  background: var(--c-bg-sunk);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  color: var(--c-muted);
+}
+
+.prose blockquote > * + * {
+  margin-top: var(--sp-3);
+}
+
+.prose img {
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+  margin-inline: auto;
+}
+
+/* ---- 表格（技术文章里密度最高的元素） ------------------------------------ */
+
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--fs-2);
+  line-height: 1.6;
+  display: block;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+@media (min-width: 720px) {
+  .prose table {
+    display: table;
+    white-space: normal;
+  }
+}
+
+.prose thead {
+  background: var(--c-bg-sunk);
+}
+
+.prose th {
+  font-weight: var(--fw-bold);
+  color: var(--c-headline);
+  text-align: left;
+}
+
+.prose th,
+.prose td {
+  padding: 0.6em 0.9em;
+  border: var(--border-dotted);
+  vertical-align: top;
+}
+
+.prose tbody tr:hover {
+  background: var(--c-bg-sunk);
+}
+
+/* ---- 代码 ---------------------------------------------------------------- */
+
+.prose :not(pre) > code {
+  font-family: var(--font-mono);
+  font-size: 0.88em;
+  padding: 0.15em 0.4em;
+  background: var(--c-1st-muted);
+  color: var(--c-headline);
+  border-radius: var(--radius-sm);
+  word-break: break-word;
+}
+
+.prose pre {
+  font-family: var(--font-mono);
+  font-size: var(--fs-2);
+  line-height: var(--lh-code);
+  padding: var(--sp-5);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--c-line);
+  overflow-x: auto;
+  tab-size: 2;
+}
+
+.prose pre code {
+  font-size: inherit;
+  background: none;
+  padding: 0;
+  border: none;
+}
+
+/* Shiki 双主题：暗色模式下切到 --shiki-dark 系列变量
+   （@shikijs/rehype 默认给 pre 加 class="shiki"） */
+html.is-dark-mode .prose pre.shiki,
+html.is-dark-mode .prose pre.shiki span {
+  color: var(--shiki-dark) !important;
+  background-color: var(--shiki-dark-bg) !important;
+  font-style: var(--shiki-dark-font-style) !important;
+  font-weight: var(--shiki-dark-font-weight) !important;
+  text-decoration: var(--shiki-dark-text-decoration) !important;
+}

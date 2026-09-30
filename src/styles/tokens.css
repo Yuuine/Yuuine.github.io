@@ -1,0 +1,186 @@
+/* ==========================================================================
+   设计令牌 —— 单一 hue 变量驱动整套配色
+   改主题色只需改 --hue-1st / --hue-2nd 两个数字，其余全部派生。
+   结构参考 alphanull.de：暖灰中性色 + 双主色 + 对比阶梯。
+   ========================================================================== */
+
+:root {
+  /* ---- 色相参数 ---------------------------------------------------------- */
+  --hue-neutral: 30;       /* 暖灰。不改成冷灰是"高级感"的关键 */
+  --sat-neutral: 12%;
+
+  --hue-1st: 174;          /* 青 */
+  --sat-1st: 84%;
+  --light-1st: 30%;
+
+  --hue-2nd: 32;           /* 琥珀 */
+  --sat-2nd: 92%;
+  --light-2nd: 44%;
+
+  /* ---- 对比阶梯（100% → 8% 亮度） ---------------------------------------- */
+  --c-1: hsl(var(--hue-neutral) var(--sat-neutral) 100%);
+  --c-2: hsl(var(--hue-neutral) var(--sat-neutral) 96%);
+  --c-3: hsl(var(--hue-neutral) var(--sat-neutral) 90%);
+  --c-4: hsl(var(--hue-neutral) var(--sat-neutral) 76%);
+  --c-5: hsl(var(--hue-neutral) var(--sat-neutral) 58%);
+  --c-6: hsl(var(--hue-neutral) var(--sat-neutral) 40%);
+  --c-7: hsl(var(--hue-neutral) var(--sat-neutral) 28%);
+  --c-8: hsl(var(--hue-neutral) var(--sat-neutral) 16%);
+  --c-9: hsl(var(--hue-neutral) var(--sat-neutral) 10%);
+
+  /* ---- 语义色 ------------------------------------------------------------ */
+  --c-1st: hsl(var(--hue-1st) var(--sat-1st) var(--light-1st));
+  --c-1st-bright: hsl(var(--hue-1st) calc(var(--sat-1st) + 6%) calc(var(--light-1st) + 14%));
+  --c-1st-muted: hsl(var(--hue-1st) calc(var(--sat-1st) - 40%) calc(var(--light-1st) + 58%));
+  --c-2nd: hsl(var(--hue-2nd) var(--sat-2nd) var(--light-2nd));
+  --c-2nd-bright: hsl(var(--hue-2nd) calc(var(--sat-2nd) + 4%) calc(var(--light-2nd) + 12%));
+  --c-2nd-muted: hsl(var(--hue-2nd) calc(var(--sat-2nd) - 45%) calc(var(--light-2nd) + 50%));
+
+  --c-bg: hsl(var(--hue-neutral) var(--sat-neutral) 98.5%);
+  --c-bg-sunk: hsl(var(--hue-neutral) var(--sat-neutral) 96%);
+  --c-surface: hsl(var(--hue-neutral) var(--sat-neutral) 100%);
+  --c-text: var(--c-9);
+  --c-headline: var(--c-8);
+  --c-muted: var(--c-6);
+  --c-faint: var(--c-5);
+  --c-line: hsl(var(--hue-neutral) var(--sat-neutral) 88%);
+  --c-line-strong: hsl(var(--hue-neutral) var(--sat-neutral) 78%);
+
+  --c-link: var(--c-1st);
+  --c-link-hover: var(--c-2nd);
+
+  --c-error: #d21f00;
+  --c-success: #00a866;
+
+  /* ---- 排版 -------------------------------------------------------------- */
+  --font-sans: "Inter var", "PingFang SC", "HarmonyOS Sans SC", "Microsoft YaHei",
+    "Noto Sans SC", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-serif: "Songti SC", "Noto Serif SC", "Source Han Serif SC", Georgia, serif;
+  --font-mono: "JetBrains Mono", "SFMono-Regular", "Cascadia Mono", Consolas,
+    "Liberation Mono", Menlo, monospace;
+
+  --fw-light: 300;
+  --fw-normal: 400;
+  --fw-medium: 500;
+  --fw-bold: 700;
+
+  --lh-tight: 1.14;        /* 大标题 */
+  --lh-heading: 1.28;
+  --lh-body: 1.75;         /* 中文正文需要比西文更松 */
+  --lh-code: 1.6;
+
+  /* 全流体字号阶梯：无断点跳变 */
+  --fs-1: clamp(0.75rem, 0.33vw + 0.68rem, 0.875rem);
+  --fs-2: clamp(0.875rem, 0.33vw + 0.8rem, 1rem);
+  --fs-3: clamp(1rem, 0.33vw + 0.93rem, 1.125rem);      /* 正文 */
+  --fs-4: clamp(1.125rem, 0.5vw + 1rem, 1.375rem);
+  --fs-5: clamp(1.375rem, 1vw + 1.1rem, 1.875rem);
+  --fs-6: clamp(1.75rem, 1.33vw + 1.43rem, 2.5rem);
+  --fs-7: clamp(2.25rem, 3.4vw + 1.6rem, 4.5rem);       /* 展示级 */
+
+  --ls-tight: -0.022em;
+  --ls-wide: 0.06em;
+
+  /* ---- 间距（同样流体） -------------------------------------------------- */
+  --sp-1: 0.25rem;
+  --sp-2: 0.5rem;
+  --sp-3: 0.75rem;
+  --sp-4: 1rem;
+  --sp-5: 1.5rem;
+  --sp-6: clamp(1.5rem, 0.5rem + 1.4vw, 2.5rem);
+  --sp-7: clamp(2.5rem, 3vw, 4.5rem);
+  --sp-8: clamp(4rem, 6vw, 8rem);
+  --sp-9: clamp(6rem, 10vw, 13rem);
+
+  /* ---- 布局 -------------------------------------------------------------- */
+  --width-content: min(94vw, 1680px);
+  --width-text: 46rem;      /* 正文可读宽度 */
+  --width-wide: 78rem;
+  --radius-sm: 3px;
+  --radius: 6px;
+  --radius-lg: 14px;
+  --header-h: clamp(58px, 5vw, 78px);
+
+  /* 签名细节：点状分隔线 */
+  --border-dotted: 1px dotted var(--c-line-strong);
+
+  --shadow-sm: 0 1px 2px hsl(var(--hue-neutral) 20% 20% / 0.06);
+  --shadow: 0 6px 24px -8px hsl(var(--hue-neutral) 20% 20% / 0.18);
+  --shadow-lg: 0 24px 60px -20px hsl(var(--hue-neutral) 25% 15% / 0.28);
+
+  --blur: blur(10px) saturate(150%);
+
+  /* ---- 运动 -------------------------------------------------------------- */
+  --dur-fast: 140ms;
+  --dur: 260ms;
+  --dur-slow: 520ms;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+
+  /* 马赛克 Hero 的双色。
+     压低饱和、提高明度 —— 它是背景纹理，不能和前景标题抢注意力。 */
+  --mosaic-1: hsl(var(--hue-1st) 42% 58%);
+  --mosaic-2: hsl(var(--hue-2nd) 58% 70%);
+  --mosaic-ink: hsl(var(--hue-neutral) 30% 12%);
+
+  color-scheme: light;
+}
+
+/* ==========================================================================
+   暗色模式
+   ========================================================================== */
+
+html.is-dark-mode {
+  --light-1st: 46%;
+  --light-2nd: 56%;
+
+  --c-bg: hsl(var(--hue-neutral) 10% 7.5%);
+  --c-bg-sunk: hsl(var(--hue-neutral) 10% 5%);
+  --c-surface: hsl(var(--hue-neutral) 9% 11%);
+  --c-text: hsl(var(--hue-neutral) 8% 86%);
+  --c-headline: hsl(var(--hue-neutral) 8% 94%);
+  --c-muted: hsl(var(--hue-neutral) 7% 62%);
+  --c-faint: hsl(var(--hue-neutral) 7% 46%);
+  --c-line: hsl(var(--hue-neutral) 8% 18%);
+  --c-line-strong: hsl(var(--hue-neutral) 8% 26%);
+
+  --c-1st-muted: hsl(var(--hue-1st) 30% 20%);
+  --c-2nd-muted: hsl(var(--hue-2nd) 35% 20%);
+
+  --mosaic-1: hsl(var(--hue-1st) 38% 16%);
+  --mosaic-2: hsl(var(--hue-2nd) 36% 20%);
+  --mosaic-ink: hsl(var(--hue-neutral) 20% 8%);
+
+  --shadow-sm: 0 1px 2px #0006;
+  --shadow: 0 6px 24px -8px #0009;
+  --shadow-lg: 0 24px 60px -20px #000b;
+
+  color-scheme: dark;
+}
+
+/* ==========================================================================
+   尊重系统「减弱动态效果」——动效全部降级为即时
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-fast: 1ms;
+    --dur: 1ms;
+    --dur-slow: 1ms;
+  }
+}
+
+html.has-reduced-motion {
+  --dur-fast: 1ms;
+  --dur: 1ms;
+  --dur-slow: 1ms;
+}
+
+html.has-reduced-motion *,
+html.has-reduced-motion *::before,
+html.has-reduced-motion *::after {
+  animation-duration: 1ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 1ms !important;
+  scroll-behavior: auto !important;
+}
