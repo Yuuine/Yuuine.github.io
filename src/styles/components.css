@@ -259,6 +259,25 @@ html.is-dark-mode .icon-btn__moon {
    Hero —— 生成式代码马赛克
    ========================================================================== */
 
+/* 首页的滚动吸附点。开启吸附的是 base.css 里 html:has(.hero) 那条，
+   scroll-snap-align 单独存在是空转的，所以写在这里不会波及其它页面。 */
+.hero,
+.section {
+  scroll-snap-align: start;
+}
+
+/* Hero 的顶边落在吸顶页头下方，不补这一段的话吸附点会是 73px 而不是 0，
+   页面就永远停不到真正的顶部。
+   多出的 1px 是页头那条点状下边框 —— --header-h 只是页头的内容高度 */
+.hero {
+  scroll-margin-top: calc(var(--header-h) + 1px);
+}
+
+/* 页脚贴底对齐。少了这一档，滚到底会被吸回文章列表顶，页脚永远看不到 */
+.footer {
+  scroll-snap-align: end;
+}
+
 .hero {
   position: relative;
   display: grid;
@@ -312,20 +331,21 @@ html.is-dark-mode .icon-btn__moon {
   background: transparent;
 }
 
-/* 马赛克上覆一层强渐变：标题可读性的唯一保障 */
+/* 马赛克上覆一层白雾。
+   它是标题可读性的唯一保障，所以中心那一档不能跟着一起降（已按对比度校验过）。
+   往外衰减得快，是让 Hero 边缘的马赛克完整透出来 —— 这层越薄，整块越通透。 */
 .hero::after {
   content: '';
   position: absolute;
   inset: 0;
   z-index: -1;
-  background:
-    radial-gradient(
-      ellipse 62% 58% at 50% 46%,
-      var(--c-bg) 0%,
-      color-mix(in srgb, var(--c-bg) 92%, transparent) 35%,
-      color-mix(in srgb, var(--c-bg) 62%, transparent) 62%,
-      color-mix(in srgb, var(--c-bg) 22%, transparent) 100%
-    );
+  background: radial-gradient(
+    ellipse 62% 58% at 50% 46%,
+    color-mix(in srgb, var(--c-bg) 84%, transparent) 0%,
+    color-mix(in srgb, var(--c-bg) 66%, transparent) 35%,
+    color-mix(in srgb, var(--c-bg) 38%, transparent) 62%,
+    color-mix(in srgb, var(--c-bg) 10%, transparent) 100%
+  );
 }
 
 .hero__overlay {

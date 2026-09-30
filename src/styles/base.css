@@ -17,14 +17,19 @@ html {
   -webkit-text-size-adjust: 100%;
 
   /*
-   * 不要给 html 加 scroll-behavior: smooth。
-   * 它是全局的，会把路由的滚动复位也变成动画：Next 导航时用 scrollIntoView 复位，
-   * 而动画目标一旦按旧布局算出来，DOM 换掉后就会停在错误位置
-   * （实测点 logo 回首页会停在 687px 而不是顶部）。
-   *
-   * scroll-padding-top 保留 —— 它只影响锚点落点，让目标不被吸顶页头盖住。
+   * 不要加 scroll-behavior: smooth。它是全局的，会把路由的滚动复位也变成动画：
+   * Next 导航时用 scrollIntoView 复位，动画目标一旦按旧布局算出来，
+   * DOM 换掉后就会停在错误位置（实测点 logo 回首页停在 687px 而不是顶部）。
    */
-  scroll-padding-top: calc(var(--header-h) + var(--sp-4));
+}
+
+/*
+ * 首页的滚动吸附。挂在 :has(.hero) 上而不是单纯挂在 html 上：
+ * 吸附点用到了 .section / .footer 这类通用类名，将来别的页面复用时
+ * 不会在那边意外开启吸附。
+ */
+html:has(.hero) {
+  scroll-snap-type: y proximity;
 }
 
 body {
@@ -270,6 +275,16 @@ input:focus-visible,
 
 .prose h4 {
   margin-top: var(--sp-6);
+}
+
+/*
+ * 深链跳到标题时留出吸顶页头的高度。
+ * 原先挂在 html 的 scroll-padding-top 上，但那个偏移对滚动吸附同样生效
+ * （吸附位置会变成「元素顶边 − 88px」），首页吸附后顶上会留一条 Hero 残影，
+ * 所以下移到真正需要它的锚点目标本身。
+ */
+.prose :is(h2, h3, h4, h5, h6)[id] {
+  scroll-margin-top: calc(var(--header-h) + var(--sp-4));
 }
 
 .prose ul,
