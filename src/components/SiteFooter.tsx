@@ -20,12 +20,6 @@ export default function SiteFooter({ locale }: { locale: Locale }) {
                 <Link href={localeHref(locale, item.path)}>{dict.nav[item.key]}</Link>
               </li>
             ))}
-            {/* 只有一份中文源，订阅源也就不分语言。
-                这里必须用普通 <a>：<Link> 会把 /atom.xml 当成路由去预取 RSC 数据，
-                而它只是个静态文件，每次预取都换来一个 404 */}
-            <li>
-              <a href="/atom.xml">RSS</a>
-            </li>
           </ul>
         </nav>
 

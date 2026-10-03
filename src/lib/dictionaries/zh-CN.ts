@@ -68,6 +68,7 @@ export const zhCN = {
     toc: '目录',
     backToTop: '回到顶部',
     updated: '最后更新',
+    diagram: { zoomIn: '放大', zoomOut: '缩小', reset: '恢复原始大小' },
     navAria: '上下篇',
     prev: '上一篇',
     next: '下一篇',

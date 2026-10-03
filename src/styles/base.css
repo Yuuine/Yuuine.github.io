@@ -404,6 +404,62 @@ input:focus-visible,
   word-break: break-word;
 }
 
+/* ---- Mermaid 图 ---------------------------------------------------------- */
+
+/* 图保持构建时的原始尺寸。宽流程图装不进正文列就横向滚动 ——
+   缩到列宽的话，一张近 2000 单位宽的图只剩四成，字会小到看不清 */
+.prose .diagram {
+  position: relative;
+}
+
+.prose .diagram__scroll {
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+}
+
+.prose .diagram__scroll > svg {
+  display: block;
+  height: auto;
+  max-width: none;
+}
+
+/* 缩放工具条悬浮在图的右上角。不占文档流，所以脚本注入时页面不会跳 */
+.prose .diagram__tools {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--sp-1);
+  padding: 2px;
+  border: 1px solid var(--c-line);
+  border-radius: var(--radius-sm);
+  background: var(--c-surface);
+}
+
+.prose .diagram__btn {
+  min-width: 2.2em;
+  padding: 0.15em 0.45em;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: none;
+  color: var(--c-muted);
+  font-family: var(--font-mono);
+  font-size: var(--fs-1);
+  line-height: 1.6;
+  cursor: pointer;
+}
+
+.prose .diagram__btn:hover:not(:disabled) {
+  background: var(--c-1st-muted);
+  color: var(--c-1st);
+}
+
+.prose .diagram__btn:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
 .prose pre {
   font-family: var(--font-mono);
   font-size: var(--fs-2);

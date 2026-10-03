@@ -71,6 +71,7 @@ export const en = {
     toc: 'Contents',
     backToTop: 'Back to top',
     updated: 'Last updated',
+    diagram: { zoomIn: 'Zoom in', zoomOut: 'Zoom out', reset: 'Reset to original size' },
     navAria: 'Previous and next post',
     prev: 'Previous',
     next: 'Next',

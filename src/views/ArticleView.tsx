@@ -2,6 +2,7 @@ import Link from 'next/link';
 import 'katex/dist/katex.min.css';
 import ArticleToc from '@/components/ArticleToc';
 import BackToTop from '@/components/BackToTop';
+import DiagramZoom from '@/components/DiagramZoom';
 import type { Article } from '@/lib/articles';
 import { getAllArticles } from '@/lib/articles';
 import { formatDate } from '@/lib/format';
@@ -58,6 +59,8 @@ export default async function ArticleView({
         )}
 
         <div className="prose" dangerouslySetInnerHTML={{ __html: html }} />
+
+        <DiagramZoom labels={dict.article.diagram} />
 
         <p className="article__updated">
           {dict.article.updated}{' '}

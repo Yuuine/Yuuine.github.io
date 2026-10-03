@@ -53,9 +53,6 @@ export function buildRootMetadata(locale: Locale): Metadata {
       locale: OG_LOCALE[locale],
     },
     twitter: { card: 'summary_large_image' },
-    alternates: {
-      types: { 'application/atom+xml': '/atom.xml' },
-    },
     icons: ICONS,
   };
 }

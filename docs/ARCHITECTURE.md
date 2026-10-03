@@ -70,7 +70,7 @@ app/  ──▶  views/  ──▶  components/  ──▶  lib/  ──▶  con
 | 中文（根路径） | `app/(zh)/**`，路由组不产生 URL 段 |
 | `/en/**`、`/zh-TW/**` | `app/[lang]/**`，`generateStaticParams` 只返回这两种语言 |
 | 19 条文章路径 | `app/**/[...slug]/page.tsx` + `generateStaticParams` + `dynamicParams = false` |
-| `/atom.xml`、`/sitemap.xml`、`/robots.txt` | 约定文件，静态导出下必须声明 `force-static` |
+| `/sitemap.xml`、`/robots.txt` | 约定文件，静态导出下必须声明 `force-static` |
 
 **中文留在根路径是为了 URL 不迁移** —— 静态导出做不了重定向，一旦给中文加前缀就没有退路。代价是路由分成两支，而 Next 只允许 root layout 渲染 `<html>`，所以 `(zh)/layout.tsx` 与 `[lang]/layout.tsx` 各是一个 root layout：`<html>/<body>` 在 `components/RootShell.tsx`，站点外壳（全局样式、主题脚本、页头、页脚、`<main>`）在 `components/SiteChrome.tsx`。
 

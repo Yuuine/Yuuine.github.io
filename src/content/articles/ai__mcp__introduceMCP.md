@@ -61,7 +61,7 @@ MCP 规范定义了四种核心能力类型：
 
 > **Sampling 机制说明**：这打破了传统 MCP Server 的单向数据流，允许 Server 在获取数据后，利用 Host 强大的 LLM 能力进行总结、理解或生成，再将结果返回给用户。
 
-{% mermaid %}
+```mermaid
 flowchart TB
     subgraph MCP["MCP 四大核心能力"]
         direction TB
@@ -78,7 +78,7 @@ flowchart TB
     style C fill:#00838F,color:#fff
     style D fill:#00838F,color:#fff
     style E fill:#00838F,color:#fff
-{% endmermaid %}
+```
 
 ---
 
@@ -115,7 +115,7 @@ flowchart TB
 
 MCP 采用**分层架构设计**，包含四个核心组件：
 
-{% mermaid %}
+```mermaid
 flowchart TB
     classDef client fill:#00838F,color:#FFFFFF,stroke:none,rx:10,ry:10
     classDef infra fill:#9B59B6,color:#FFFFFF,stroke:none,rx:10,ry:10
@@ -146,7 +146,7 @@ flowchart TB
     MCPServer --> ExternalAPI
 
     linkStyle default stroke-width:2px,stroke:#333333,opacity:0.8
-{% endmermaid %}
+```
 
 ### 2. 核心组件详解
 
@@ -165,7 +165,7 @@ flowchart TB
 
 ### 3. 完整工作流程
 
-{% mermaid %}
+```mermaid
 sequenceDiagram
     participant U as User
     participant H as Host (LLM)
@@ -183,7 +183,7 @@ sequenceDiagram
     C-->>H: Tool Output
     H->>H: 思考与总结
     H-->>U: 返回分析结果
-{% endmermaid %}
+```
 
 | 步骤 | 描述 | 关键点 |
 |------|------|--------|

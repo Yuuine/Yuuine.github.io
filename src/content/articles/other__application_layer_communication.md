@@ -156,7 +156,7 @@ HTTP 轮询（Polling）是一种**客户端定期向服务器发起 HTTP 请求
 2. **服务器**收到请求后，立即返回当前最新的数据（无论是否有更新）
 3. **客户端**收到响应后，处理数据，并等待下一次轮询
 
-{% mermaid %}
+```mermaid
 sequenceDiagram
     participant Client
     participant Server
@@ -165,7 +165,7 @@ sequenceDiagram
         Server-->>Client: { "items": [...] }
         Client->>Client: 更新 UI
     end
-{% endmermaid %}
+```
 
 #### **短轮询（Short Polling）**
 
@@ -186,7 +186,7 @@ sequenceDiagram
 - 客户端发起请求后，**服务器不立即响应**，而是**挂起请求**，直到有新数据或超时
 - 一旦有数据，服务器立刻返回；客户端收到后**立即发起下一次请求**
 
-{% mermaid %}
+```mermaid
 sequenceDiagram
     participant Client
     participant Server
@@ -195,7 +195,7 @@ sequenceDiagram
     Server-->>Client: { "new": true } (5秒后有数据)
     Client->>Client: 处理数据
     Client->>Server: GET /data (请求2，立即发起)
-{% endmermaid %}
+```
 
 优点：
 - 减少无效请求

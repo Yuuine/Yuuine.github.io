@@ -24,6 +24,8 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      # 不需要装浏览器：Mermaid 用镜像里预装的 Chrome 渲染（见 src/lib/markdown.ts）
+
       # next build + output: 'export' → 产物在 out/
       - name: Build
         run: npm run build

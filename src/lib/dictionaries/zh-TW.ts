@@ -65,6 +65,7 @@ export const zhTW = {
     toc: '目錄',
     backToTop: '回到頂部',
     updated: '最後更新',
+    diagram: { zoomIn: '放大', zoomOut: '縮小', reset: '恢復原始大小' },
     navAria: '上下篇',
     prev: '上一篇',
     next: '下一篇',

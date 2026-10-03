@@ -21,6 +21,10 @@ npm run lint      # 代码检查
 
 端口默认 3000，被占用会自动往后找一个，具体端口在启动日志里。
 
+> ⚠️ **构建机需要装 Chrome**。文章里的 Mermaid 图是**构建期**用无头 Chrome 渲染成内联 SVG 的
+> （页面里不加载任何图表 JS）。用系统 Chrome 是为了省掉下载 Playwright 自带浏览器的一大笔开销，
+> GitHub 的 ubuntu runner 预装了它。装不上 Chrome 的话 `npm run build` 会在渲染图的那几页报错。
+
 ---
 
 ## 内容怎么写
@@ -33,7 +37,7 @@ npm run lint      # 代码检查
 ---
 title: 文章标题
 date: 2026-09-30 14:30:00
-description: 一句话摘要，会用在列表卡片、搜索结果和 RSS 里
+description: 一句话摘要，会用在列表卡片和搜索结果里
 categories: [ ai ]
 tags: [ mcp, llm ]
 permalink: /ai/mcp/example/
@@ -48,7 +52,7 @@ math: false
 |---|---|---|
 | `title` | ✅ | 文章标题 |
 | `date` | ✅ | 按**东八区**解析，写 `2026-09-30 14:30:00` 就行 |
-| `description` | ✅ | 摘要，用于列表卡片 + 社交分享 + RSS |
+| `description` | ✅ | 摘要，用于列表卡片 + 社交分享 |
 | `categories` | ✅ | 数组，**统一小写** |
 | `tags` | ✅ | 数组，**统一小写** |
 | `permalink` | ✅ | **决定 URL**，必须以 `/` 开头和结尾 |
@@ -135,7 +139,7 @@ npm run build
 npm run preview
 ```
 
-然后访问 http://localhost:3000，检查首页、文章页、`/sitemap.xml`、`/atom.xml` 是否都正常。
+然后访问 http://localhost:3000，检查首页、文章页、`/sitemap.xml` 是否都正常。
 
 ### 域名与 DNS
 

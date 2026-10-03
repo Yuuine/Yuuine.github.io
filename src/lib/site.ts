@@ -1,7 +1,7 @@
 import type { Dictionary } from './i18n';
 
 /**
- * 站点级常量。所有绝对 URL（canonical / og:url / sitemap / RSS）统一从这里推导，
+ * 站点级常量。所有绝对 URL（canonical / og:url / sitemap）统一从这里推导，
  * 保证站内不存在第二处域名定义。
  *
  * 面向访客的文案（站点描述、导航名）不在这里 —— 它们随语言变化，放在 lib/dictionaries。
