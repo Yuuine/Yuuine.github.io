@@ -10,8 +10,6 @@ permalink: /sql/commonly_used_sql_statements/
 math: false
 source: sql/mysql/commonly_used_sql_statements.md
 ---
-# SQL 常用语句
-
 ## 分组
 
 **`group by`**：

@@ -12,8 +12,6 @@ permalink: /DevOps/Docker/
 math: false
 source: DevOps/Docker.md
 ---
-# Docker 容器化入门
-
 ## 一、什么是容器化
 
 ### 1. 简介

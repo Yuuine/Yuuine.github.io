@@ -10,7 +10,6 @@ export const metadata: Metadata = buildMetadata({
   path: '/about/',
   locale,
   title: dict.about.title,
-  description: dict.about.description,
 });
 
 export default function AboutPage() {

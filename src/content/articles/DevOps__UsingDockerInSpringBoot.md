@@ -12,8 +12,6 @@ permalink: /DevOps/UsingDockerInSpringBoot/
 math: false
 source: DevOps/UsingDockerInSpringBoot.md
 ---
-# 在 SpringBoot 中使用 Docker
-
 ## 一、为什么要在 SpringBoot 中使用 Docker？
 
 ### 1.1 环境一致性

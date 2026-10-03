@@ -11,8 +11,6 @@ permalink: /juc/java_locks/
 math: false
 source: Java/juc/java_locks.md
 ---
-# 锁
-
 ## 前言
 
 在多线程和并发场景下，如何保证数据的安全性和一致性？锁机制正是解决这一问题的关键技术之一。

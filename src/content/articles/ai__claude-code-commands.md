@@ -14,8 +14,6 @@ permalink: /ai/claude-code-commands/
 math: false
 source: AI/claude-code-commands.md
 ---
-# Claude Code 命令大全
-
 Claude Code 的命令分三种：**CLI 命令**（终端里敲的）、**斜杠命令**（交互模式里敲的 `/xxx`）、**键盘快捷键**。这篇文章把它们全部整理出来，按模块分类，重要命令会解释清楚怎么用。
 
 > 信息来源：[code.claude.com/docs](https://code.claude.com/docs/en/cli-reference.md)

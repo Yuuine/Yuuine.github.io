@@ -11,8 +11,6 @@ permalink: /ai/rag/RAG_FAQs/
 math: false
 source: AI/RAG/RAG_FAQs.md
 ---
-# RAG 常见问题
-
 ## 一、RAG 的工作流程
 
 RAG 的整体流程可以分为 **离线构建** 和 **在线推理**两个阶段。

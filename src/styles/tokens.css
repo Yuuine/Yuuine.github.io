@@ -121,7 +121,10 @@
      压低饱和、提高明度 —— 它是背景纹理，不能和前景标题抢注意力。 */
   --mosaic-1: hsl(var(--hue-1st) 42% 58%);
   --mosaic-2: hsl(var(--hue-2nd) 58% 70%);
-  --mosaic-ink: hsl(var(--hue-neutral) 30% 12%);
+  /* 砖上文字的颜色，必须随砖的明暗翻转。亮色主题的砖是中灰调的，
+     白字压在上面对比度封顶只有约 2.1:1，把不透明度加到 100% 也读不出来；
+     只有墨字拉得开。暗色主题的砖本身就暗，再反过来用浅字。 */
+  --mosaic-type: hsl(var(--hue-neutral) 30% 12%);
 
   color-scheme: light;
 }
@@ -149,7 +152,7 @@ html.is-dark-mode {
 
   --mosaic-1: hsl(var(--hue-1st) 38% 16%);
   --mosaic-2: hsl(var(--hue-2nd) 36% 20%);
-  --mosaic-ink: hsl(var(--hue-neutral) 20% 8%);
+  --mosaic-type: hsl(var(--hue-neutral) 30% 88%);
 
   --shadow-sm: 0 1px 2px #0006;
   --shadow: 0 6px 24px -8px #0009;

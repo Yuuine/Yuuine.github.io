@@ -12,8 +12,6 @@ permalink: /DevOps/SpringBootConfigContainerAdaptation/
 math: false
 source: DevOps/SpringBootConfigContainerAdaptation.md
 ---
-# SpringBoot 配置加载机制与容器化适配
-
 ## 一、SpringBoot 配置加载机制
 
 ### 1.1 配置文件加载顺序

@@ -150,6 +150,20 @@ input:focus-visible,
   background: var(--c-1st);
 }
 
+/* 视觉隐藏但保留给读屏与搜索引擎。
+   首页字标的可见部分是 SVG 图形，真文字必须另留一份，否则 h1 里没有文字 */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
 /* ---- 布局工具 ------------------------------------------------------------ */
 
 .container {

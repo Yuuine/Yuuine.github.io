@@ -1,4 +1,5 @@
 import type { CSSProperties } from 'react';
+import MosaicShuffle from './MosaicShuffle';
 
 /**
  * 生成式代码马赛克 —— 首页 Hero 的视觉主体。
@@ -7,6 +8,9 @@ import type { CSSProperties } from 'react';
  * 也会盖过前景标题。
  *
  * 必须用固定种子的 PRNG —— 随机值在服务端与客户端不一致会导致 hydration 报错。
+ *
+ * 每块砖带 --c/--r 两个格坐标，位置由 CSS 的 left/top 百分比算出来（不是 CSS Grid）：
+ * 换块要能滑动，就得让一块砖换格子时只脏它自己。动效见 mosaic-shuffle.ts。
  */
 
 const FRAGMENTS = [
@@ -80,7 +84,7 @@ function mulberry32(seed: number) {
 }
 
 interface Props {
-  /** 网格列数（PC 端）；窄屏由 CSS 降到 8 列 */
+  /** 网格列数（PC 端）；窄屏由 CSS 降到 8 列，露出来的是左边那几列 */
   cols?: number;
   rows?: number;
   seed?: number;
@@ -88,21 +92,23 @@ interface Props {
 
 export default function CodeMosaic({ cols = 18, rows = 11, seed = 20260615 }: Props) {
   const rand = mulberry32(seed);
-  const total = cols * rows;
 
-  const tiles = Array.from({ length: total }, (_, i) => {
+  const tiles = Array.from({ length: cols * rows }, (_, i) => {
     const r = rand();
 
     // 四档色阶：a/b 为主色，c 为淡化，blank 留白制造呼吸。
     // 比例经过调整 —— 留白过多会变成棋盘，过少则糊成一片。
     const tone = r < 0.3 ? 'a' : r < 0.55 ? 'b' : r < 0.82 ? 'c' : 'blank';
 
-    const text = tone === 'blank' ? '' : FRAGMENTS[Math.floor(rand() * FRAGMENTS.length)];
-
-    // 单格透明度微抖动，制造纵深，避免整片色块齐平
-    const opacity = 0.55 + rand() * 0.45;
-
-    return { key: i, tone, text, opacity };
+    return {
+      tone,
+      text: tone === 'blank' ? '' : FRAGMENTS[Math.floor(rand() * FRAGMENTS.length)],
+      // 单格透明度微抖动，制造纵深，避免整片色块齐平。
+      // 下限不能压太低 —— 整块砖的不透明度会连文字一起压掉
+      opacity: 0.72 + rand() * 0.28,
+      c: i % cols,
+      r: Math.floor(i / cols),
+    };
   });
 
   return (
@@ -111,15 +117,22 @@ export default function CodeMosaic({ cols = 18, rows = 11, seed = 20260615 }: Pr
       style={{ '--cols': cols, '--rows': rows } as CSSProperties}
       aria-hidden="true"
     >
-      {tiles.map((t) => (
+      {tiles.map((t, i) => (
         <span
-          key={t.key}
+          key={i}
           className={`mosaic__tile mosaic__tile--${t.tone}`}
-          style={t.tone === 'blank' ? undefined : { opacity: t.opacity }}
+          style={
+            {
+              '--c': t.c,
+              '--r': t.r,
+              ...(t.tone === 'blank' ? null : { opacity: t.opacity }),
+            } as CSSProperties
+          }
         >
           {t.text}
         </span>
       ))}
+      <MosaicShuffle />
     </div>
   );
 }

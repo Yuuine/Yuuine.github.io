@@ -8,9 +8,8 @@ export default function ProjectsView({ locale }: { locale: Locale }) {
   return (
     <div className="container">
       <header className="page-head">
-        <p className="eyebrow">{dict.projects.eyebrow}</p>
-        <h1>{dict.projects.title}</h1>
-        <p className="lead">{dict.projects.lead}</p>
+        {/* 小标签就是这一页的标题。原先它下面还压着一个大号「项目」，两者说的是同一件事 */}
+        <h1 className="eyebrow">{dict.projects.eyebrow}</h1>
       </header>
 
       {sorted.length === 0 ? (

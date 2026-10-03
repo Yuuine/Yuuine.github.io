@@ -13,8 +13,6 @@ permalink: /ai/mcp/introduceMCP/
 math: false
 source: AI/MCP/introduceMCP.md
 ---
-# MCP 概述
-
 ## 一、引言
 
 **Model Context Protocol (MCP)**，即模型上下文协议，是 Anthropic 于 2024 年提出的开放协议，被誉为 **"AI 领域的 USB-C 接口"**。它通过 JSON-RPC 2.0 统一了 LLM 与外部数据源、工具的通信规范，解决了 AI 应用开发中的**复杂性和碎片化**问题。

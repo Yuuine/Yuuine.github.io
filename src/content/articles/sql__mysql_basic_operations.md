@@ -10,8 +10,6 @@ permalink: /sql/mysql_basic_operations/
 math: false
 source: sql/mysql/mysql_basic_operations.md
 ---
-# MySQL 基础操作
-
 ## SQL 规范书写说明
 - SQL 关键字不区分大小写，但通常习惯使用大写书写关键字以提高可读性，例如 `SELECT`、`FROM`、`WHERE` 等。
 - 表名和列名通常使用小写字母，并使用下划线分隔多个单词，例如 `user_info`。

@@ -17,6 +17,23 @@ const ICONS: Metadata['icons'] = {
   apple: [{ url: '/apple-touch-icon.png', sizes: '180x180' }],
 };
 
+/**
+ * 整站标题：`站点名 · 标语`。
+ * 根 metadata 的 title.default 与首页自己的 og/twitter 标题都取自这里 ——
+ * 同一个字符串写两遍，迟早只剩一处被改到。
+ */
+export function siteTitle(locale: Locale): string {
+  return `${SITE.title} · ${getDictionary(locale).tagline}`;
+}
+
+/**
+ * 页面标题。传了 title 走模板 `%s · 站点名`，没传就是整站标题 ——
+ * 和 Next 的 title.default 行为保持一致。
+ */
+function pageTitle(locale: Locale, title?: string): string {
+  return title ? `${title} · ${SITE.title}` : siteTitle(locale);
+}
+
 /** 根 metadata。各语言的 title 模板、图标、OG 站点信息只有文案不同，结构共用 */
 export function buildRootMetadata(locale: Locale): Metadata {
   const dict = getDictionary(locale);
@@ -24,7 +41,7 @@ export function buildRootMetadata(locale: Locale): Metadata {
   return {
     metadataBase: new URL(SITE.url),
     title: {
-      default: `${SITE.title} · ${dict.tagline}`,
+      default: siteTitle(locale),
       template: `%s · ${SITE.title}`,
     },
     description: dict.siteDescription,
@@ -86,7 +103,9 @@ export function buildMetadata({
   const href = localeHref(locale, path);
 
   return {
-    title,
+    // 没给标题就整个不写这个键。写成 `title: undefined` 会覆盖根布局的
+    // title.default，把模板继承打断 —— 首页就是这样丢掉 <title> 的
+    ...(title ? { title } : {}),
     description: desc,
     ...(tags?.length ? { keywords: tags } : {}),
     alternates: {
@@ -105,14 +124,14 @@ export function buildMetadata({
       url: absoluteUrl(href),
       siteName: SITE.title,
       locale: OG_LOCALE[locale],
-      title: title ? `${title} · ${SITE.title}` : SITE.title,
+      title: pageTitle(locale, title),
       description: desc,
       ...(publishedTime ? { publishedTime } : {}),
       ...(tags?.length ? { tags } : {}),
     },
     twitter: {
       card: 'summary_large_image',
-      title: title ? `${title} · ${SITE.title}` : SITE.title,
+      title: pageTitle(locale, title),
       description: desc,
     },
   };

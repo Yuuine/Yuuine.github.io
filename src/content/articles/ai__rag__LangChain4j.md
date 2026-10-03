@@ -13,8 +13,6 @@ permalink: /ai/rag/LangChain4j/
 math: false
 source: AI/RAG/LangChain4j.md
 ---
-# LangChain4j
-
 ## 一、什么是 LangChain4j？
 
 LangChain4j 是 Java 版本的 LangChain 库，为 Java 开发者提供了构建基于大语言模型（LLM）应用的框架。它提供了丰富的组件和工具，简化了 LLM 应用的开发流程。

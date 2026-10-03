@@ -14,8 +14,6 @@ permalink: /ai/mcp/mcp-2026-ecosystem/
 math: false
 source: AI/MCP/mcp-2026-ecosystem.md
 ---
-# MCP 2026 生态全景
-
 如果你在 2024 年了解过 MCP，当时它就是一个基于 JSON-RPC 2.0 的工具调用协议——"AI 的 USB-C 接口"。
 
 但到了 2026 年 6 月，MCP 的变化已经大到需要重新认识了。规范迭代了 8 个版本，三大 SDK 同时发大版本，有了官方的服务器注册中心，甚至能在聊天窗口里直接渲染交互式 UI。

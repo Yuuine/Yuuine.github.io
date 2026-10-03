@@ -11,6 +11,9 @@ const REQUIRED_FIELDS = ['title', 'date', 'description', 'categories', 'tags', '
 /** permalink 必须形如 /ai/mcp/example/ */
 const PERMALINK_PATTERN = /^\/[^\s]*\/$/;
 
+/** 围栏代码块。里面的 `# 注释` 不是标题，扫标题前先剥掉 */
+const FENCE = /```[\s\S]*?```/g;
+
 export interface ArticleMeta {
   /** URL 路径，如 /ai/mcp/introduceMCP/ */
   permalink: string;
@@ -18,6 +21,11 @@ export interface ArticleMeta {
   slug: string;
   title: string;
   date: string;
+  /**
+   * 最后更新日期。front-matter 里可选的 `updated`，缺省回落到发布日期 ——
+   * 两者相等就说明这篇自发布起没改过，不用为了显示它去编一个日期。
+   */
+  updated: string;
   description: string;
   categories: string[];
   tags: string[];
@@ -36,11 +44,11 @@ function toArray(value: unknown): string[] {
 }
 
 /**
- * 校验 front-matter。
+ * 校验 front-matter 与正文。
  *
  * 内容写错时在构建期失败，而不是渲染出标题为 "undefined" 的页面。
  */
-function validate(fileName: string, data: Record<string, unknown>): void {
+function validate(fileName: string, data: Record<string, unknown>, body: string): void {
   const problems: string[] = [];
 
   for (const field of REQUIRED_FIELDS) {
@@ -52,6 +60,11 @@ function validate(fileName: string, data: Record<string, unknown>): void {
 
   if (data.permalink !== undefined && !PERMALINK_PATTERN.test(String(data.permalink))) {
     problems.push(`\`permalink\` 必须以 / 开头和结尾，当前是 "${data.permalink}"`);
+  }
+
+  // 标题的唯一来源是 front-matter：页面把 title 渲染成 h1，正文再写一个就重复一遍
+  if (/^#\s/m.test(body.replace(FENCE, ''))) {
+    problems.push('正文里不要写 `# 标题` —— 标题由 front-matter 的 `title` 提供，正文从 `##` 开始');
   }
 
   // 小写归一化：大小写不一致会让分类筛选对不上
@@ -78,6 +91,7 @@ function toMeta(data: Record<string, unknown>, body: string): ArticleMeta {
     slug: permalink.replace(/^\/+|\/+$/g, ''),
     title: String(data.title),
     date: String(data.date),
+    updated: String(data.updated ?? data.date),
     description: String(data.description ?? ''),
     categories: toArray(data.categories).map((c) => c.toLowerCase()),
     tags: toArray(data.tags).map((t) => t.toLowerCase()),
@@ -98,7 +112,7 @@ export async function getAllArticles(): Promise<Article[]> {
     files.map(async (fileName) => {
       const raw = await readFile(join(CONTENT_DIR, fileName), 'utf8');
       const { data, content } = matter(raw);
-      validate(fileName, data as Record<string, unknown>);
+      validate(fileName, data as Record<string, unknown>, content);
       return { ...toMeta(data as Record<string, unknown>, content), body: content };
     }),
   );

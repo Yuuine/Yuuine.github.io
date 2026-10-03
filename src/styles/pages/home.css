@@ -1,0 +1,215 @@
+/* ==========================================================================
+   首页
+   ========================================================================== */
+
+/* 首页的滚动吸附点。真正开启吸附的是 base.css 里 html:has(.hero) 那条，
+   scroll-snap-align 单独存在是空转的 —— 所以这些写在这里不会波及其它页面。
+   .section 与 .footer 是站内通用类，但吸附只在首页发生。 */
+
+.hero,
+.section {
+  scroll-snap-align: start;
+}
+
+/* Hero 的顶边落在吸顶页头下方，不补这一段的话吸附点会是 73px 而不是 0，
+   页面就永远停不到真正的顶部。
+   多出的 1px 是页头那条点状下边框 —— --header-h 只是页头的内容高度 */
+.hero {
+  scroll-margin-top: calc(var(--header-h) + 1px);
+}
+
+/* 页脚贴底对齐。少了这一档，滚到底会被吸回文章列表顶，页脚永远看不到 */
+.footer {
+  scroll-snap-align: end;
+}
+
+/* ---- 头屏容器 ------------------------------------------------------------ */
+
+.hero {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: min(78vh, 46rem);
+  overflow: hidden;
+  border-bottom: var(--border-dotted);
+  isolation: isolate;
+}
+
+/* ---- 生成式代码马赛克 ---------------------------------------------------- */
+
+.mosaic {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+}
+
+/* 每块砖绝对定位在自己那一格。
+   位置用相对容器的百分比，不用 CSS Grid —— 换块时一块砖要换格子，
+   Grid 只能靠 order 重排，那会牵动整面墙的布局；改 left/top 只脏这一块。
+   宽高各多 1px 是盖住发丝缝：格宽除不尽时相邻两格之间会露底色。 */
+.mosaic__tile {
+  position: absolute;
+  left: calc(var(--c) * 100% / var(--cols));
+  top: calc(var(--r) * 100% / var(--rows));
+  width: calc(100% / var(--cols) + 1px);
+  height: calc(100% / var(--rows) + 1px);
+  display: flex;
+  align-items: flex-start;
+  padding: 0.3rem 0.35rem;
+  font-family: var(--font-mono);
+  font-size: clamp(0.56rem, 0.7vw, 0.8rem);
+  line-height: 1.3;
+  letter-spacing: -0.015em;
+  overflow: hidden;
+  word-break: break-word;
+  hyphens: auto;
+}
+
+/* 三档色阶：a/b 是主色，c 为淡化过渡。
+   文字仍然是纹理不是内容，所以只拉到 2.5:1 上下 —— 看得见，但不跟标题抢。
+   三个色阶统一用 --mosaic-type，不再一部分浅字一部分墨字 */
+.mosaic__tile--a {
+  background: var(--mosaic-1);
+  color: color-mix(in srgb, var(--mosaic-type) 68%, transparent);
+}
+
+.mosaic__tile--b {
+  background: var(--mosaic-2);
+  color: color-mix(in srgb, var(--mosaic-type) 68%, transparent);
+}
+
+/* c 的底色比 a/b 淡得多（暗色主题下反而更暗），所以再调一档 */
+.mosaic__tile--c {
+  background: color-mix(in srgb, var(--mosaic-1) 34%, var(--c-bg));
+  color: color-mix(in srgb, var(--mosaic-type) 52%, transparent);
+}
+
+.mosaic__tile--blank {
+  background: transparent;
+}
+
+/* 马赛克上覆一层白雾。
+   它是标题可读性的唯一保障，所以中心那一档不能跟着一起降（已按对比度校验过）。
+   往外衰减得快，是让 Hero 边缘的马赛克完整透出来 —— 这层越薄，整块越通透。 */
+.hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(
+    ellipse 62% 58% at 50% 46%,
+    color-mix(in srgb, var(--c-bg) 84%, transparent) 0%,
+    color-mix(in srgb, var(--c-bg) 66%, transparent) 35%,
+    color-mix(in srgb, var(--c-bg) 38%, transparent) 62%,
+    color-mix(in srgb, var(--c-bg) 10%, transparent) 100%
+  );
+}
+
+.hero__overlay {
+  position: relative;
+  z-index: 1;
+  padding: var(--sp-8) var(--sp-5);
+  text-align: center;
+  max-width: 46rem;
+}
+
+.hero__title {
+  margin-top: var(--sp-3);
+  color: var(--c-headline);
+}
+
+/* ---- 字标 ---------------------------------------------------------------- */
+
+.wordmark {
+  display: block;
+  width: min(42rem, 72vw);
+  height: auto;
+  /* i 的点会跳到视图框外面去，不能被裁掉 */
+  overflow: visible;
+}
+
+/* i 上面那个点：抬高一点、落到自己那根竖线的笔帽上、砸扁、弹两下、回到原位。
+   竖线圆头笔帽的上沿在 y=-120.5，点的下沿在 -137 —— 落差只有 16.5，重量全靠落地
+   那一帧的压扁，不靠落差本身。
+   变形原点放在点的下沿：压扁时底面不动，看起来才是砸在地上而不是原地缩放。
+   周期 5.2s，动作占前 1.75s */
+.wordmark__tittle {
+  fill: var(--c-2nd);
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: wm-hop 5.2s linear infinite;
+}
+
+@keyframes wm-hop {
+  0% {
+    transform: translateY(0) scale(1);
+    animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  7.7% {
+    transform: translateY(-12px) scale(1);
+    animation-timing-function: cubic-bezier(0.5, 0, 1, 1);
+  }
+  14.4% {
+    transform: translateY(16.5px) scale(1.16, 0.78);
+    animation-timing-function: cubic-bezier(0.2, 0.9, 0.4, 1);
+  }
+  17.3% {
+    transform: translateY(-34px) scale(0.94, 1.1);
+    animation-timing-function: cubic-bezier(0.5, 0, 1, 1);
+  }
+  23.1% {
+    transform: translateY(16.5px) scale(1.1, 0.86);
+    animation-timing-function: cubic-bezier(0.2, 0.9, 0.4, 1);
+  }
+  25.4% {
+    transform: translateY(-8px) scale(0.97, 1.04);
+    animation-timing-function: cubic-bezier(0.5, 0, 1, 1);
+  }
+  28.8% {
+    transform: translateY(16.5px) scale(1.05, 0.95);
+    animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  33.7%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* ---- 滚动提示 ------------------------------------------------------------ */
+
+.hero__scroll {
+  position: absolute;
+  bottom: var(--sp-5);
+  left: 50%;
+  transform: translateX(-50%);
+  width: 1px;
+  height: 3.5rem;
+  background: var(--c-line-strong);
+  overflow: hidden;
+}
+
+.hero__scroll span {
+  position: absolute;
+  inset: 0 auto auto 0;
+  width: 100%;
+  height: 40%;
+  background: var(--c-1st);
+  animation: scrollHint 2.4s var(--ease-in-out) infinite;
+}
+
+@keyframes scrollHint {
+  0% {
+    transform: translateY(-100%);
+  }
+  60%,
+  100% {
+    transform: translateY(250%);
+  }
+}
+
+@media (max-width: 720px) {
+  .mosaic {
+    --cols: 8 !important;
+    --rows: 12 !important;
+  }
+}

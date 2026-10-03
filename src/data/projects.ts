@@ -26,10 +26,7 @@ export interface Project {
 export const projects: Project[] = [
   {
     name: '本站（yuuine.cn）',
-    summary: '从 Hexo 迁移到 Next.js 的个人站点，设计系统、内容管道、SEO 全部自建。',
-    detail:
-      '19 篇历史文章 1:1 保留原 URL 迁移，自研生成式代码马赛克首页，' +
-      '明暗主题无闪烁切换，Shiki 双主题代码高亮，KaTeX 数学公式，静态导出部署。',
+    summary: '个人技术站点，内容管道与设计系统全部自建，静态导出部署。',
     stack: ['Next.js 16', 'TypeScript', 'React 19', 'Shiki', 'KaTeX'],
     link: 'https://www.yuuine.cn',
     year: '2026',

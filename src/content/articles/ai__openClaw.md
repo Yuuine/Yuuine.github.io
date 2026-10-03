@@ -11,8 +11,6 @@ permalink: /ai/openClaw/
 math: false
 source: AI/openClaw.md
 ---
-# 从“对话”到“行动”：开源智能体框架 OpenClaw 深度解析
-
 **截止至 2026 年 3 月 2 日，OpenClaw 在 GitHub 上的星标数已超过 24.6 万，吸引了近千名贡献者参与开发。**
 
 如果你最近关注 AI 技术社区，大概率会被一个词刷屏——“养龙虾”。这个略显古怪的黑话，指的是搭建和配置基于开源项目 OpenClaw 的个人 AI 智能体。

@@ -17,7 +17,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     path: '/about/',
     locale: lang,
     title: dict.about.title,
-    description: dict.about.description,
   });
 }
 

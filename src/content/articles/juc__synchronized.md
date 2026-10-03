@@ -11,8 +11,6 @@ permalink: /juc/synchronized/
 math: false
 source: Java/juc/synchronized.md
 ---
-# synchronized 详解
-
 ## 简介
 
 synchronized 是 Java 中最常用的锁，主要有三种应用方式：

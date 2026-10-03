@@ -1,5 +1,6 @@
 /* ==========================================================================
-   项目列表 / 关于页 / 占位标记
+   内页 —— 项目列表 / 关于 / 404
+   跨页复用的 .placeholder 在 components.css
    ========================================================================== */
 
 .project-list {
@@ -86,30 +87,6 @@
   font-size: var(--fs-4);
   line-height: 1.75;
   color: var(--c-headline);
-}
-
-/* 需要你补内容的地方：视觉上明显，但不至于难看 */
-.placeholder {
-  position: relative;
-  padding: var(--sp-4) var(--sp-5);
-  border: 1px dashed var(--c-line-strong);
-  border-radius: var(--radius);
-  background: var(--c-bg-sunk);
-  color: var(--c-muted);
-  font-size: var(--fs-2);
-}
-
-.placeholder__tag {
-  display: inline-block;
-  margin-right: 0.6em;
-  padding: 0.05em 0.5em;
-  font-family: var(--font-mono);
-  font-size: 0.75em;
-  letter-spacing: 0.08em;
-  color: var(--c-1);
-  background: var(--c-2nd);
-  border-radius: var(--radius-sm);
-  vertical-align: 0.1em;
 }
 
 /* ---- 404 ---------------------------------------------------------------- */

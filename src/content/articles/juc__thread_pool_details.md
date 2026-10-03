@@ -11,8 +11,6 @@ permalink: /juc/thread_pool_details/
 math: false
 source: Java/juc/thread_pool_details.md
 ---
-# 线程池详解
-
 ## 简介
 
 线程池（Thread Pool）是一种用于管理和复用线程资源的设计模式。它通过预先创建一定数量的线程，并将任务分配给这些线程来执行，从而避免了频繁创建和销毁线程所带来的开销，提高了系统的性能和响应速度。

@@ -11,8 +11,6 @@ permalink: /distributed/Elasticsearch/
 math: false
 source: distributed/Elasticsearch.md
 ---
-# Elasticsearch
-
 ## 1. 什么是 Elasticsearch
 
 [Elasticsearch](https://github.com/elastic/elasticsearch) 是基于 Apache Lucene 的分布式、RESTful 搜索和分析引擎，是 Elastic Stack 的核心组件。它支持实时数据摄取、存储、搜索和分析，广泛应用于全文搜索、日志分析、观测性和安全等领域。在 9.x 中，Elasticsearch 构建于 Lucene 10 之上，进一步提升了性能、向量搜索能力和 AI 集成。

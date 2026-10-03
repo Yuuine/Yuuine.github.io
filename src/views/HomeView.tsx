@@ -1,9 +1,8 @@
 import Link from 'next/link';
-import CodeMosaic from '@/components/CodeMosaic';
 import { getAllArticles } from '@/lib/articles';
 import { formatDate } from '@/lib/format';
 import { getDictionary, localeHref, type Locale } from '@/lib/i18n';
-import { SITE } from '@/lib/site';
+import Hero from './home/Hero';
 
 export default async function HomeView({ locale }: { locale: Locale }) {
   const dict = getDictionary(locale);
@@ -12,16 +11,7 @@ export default async function HomeView({ locale }: { locale: Locale }) {
 
   return (
     <>
-      {/* Hero：生成式代码马赛克 + 站点标识 */}
-      <section className="hero">
-        <CodeMosaic />
-        <div className="hero__overlay">
-          <h1 className="hero__title">{SITE.title}</h1>
-        </div>
-        <div className="hero__scroll" aria-hidden="true">
-          <span />
-        </div>
-      </section>
+      <Hero />
 
       <div className="container">
         <section className="section">

@@ -10,8 +10,6 @@ permalink: /sql/mysql_log/
 math: false
 source: sql/mysql/mysql_log.md
 ---
-# MySQL 日志详解
-
 ## 前言
 
 MySQL 日志 主要包括错误日志、一般查询日志、慢查询日志、事务日志、二进制日志、回滚日志几大类。

@@ -11,8 +11,6 @@ permalink: /ai/rag/introduceRAG/
 math: true
 source: AI/RAG/introduceRAG.md
 ---
-# RAG 概述
-
 ## 一、引言
 
 **Retrieval-Augmented Generation (RAG)，即检索增强生成，是一种使用来自私有或专有数据源的信息来补充文本生成的技术**。用于优化大型语言模型（Large Language Models, LLMs）的输出性能。它通过将外部知识库与生成模型相结合，使模型能够在不重新训练的情况下访问特定领域或实时更新的信息，从而提升响应的准确性、相关性和可靠性。

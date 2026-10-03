@@ -11,8 +11,6 @@ permalink: /other/application_layer_communication/
 math: false
 source: Java/other/application_layer_communication.md
 ---
-# Java 网络通信
-
 ## 前言
 
 Java 是如何和外部服务进行通信的？如何接受请求和发送响应？常见的通信方式有哪些？它们各自的特点和适用场景是什么？
