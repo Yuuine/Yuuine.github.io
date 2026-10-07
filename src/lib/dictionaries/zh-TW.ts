@@ -47,6 +47,21 @@ export const zhTW = {
     filterAll: (n: number) => `全部 ${n}`,
   },
 
+  categories: {
+    ai: 'AI',
+    java: 'Java',
+    devops: 'DevOps',
+    sql: 'SQL',
+    distributed: '分散式',
+  } as Record<string, string>,
+
+  category: {
+    eyebrow: 'Category',
+    all: '全部文章',
+    lead: (n: number) => `共 ${n} 篇。`,
+    description: (name: string, n: number) => `${name} 分類下的全部文章，共 ${n} 篇。`,
+  },
+
   projects: {
     eyebrow: 'Projects',
     title: '專案',
@@ -69,6 +84,7 @@ export const zhTW = {
     navAria: '上下篇',
     prev: '上一篇',
     next: '下一篇',
+    related: '相關文章',
     translationNotice: '這篇文章目前只有簡體中文版。',
   },
 

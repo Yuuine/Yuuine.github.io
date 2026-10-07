@@ -121,8 +121,11 @@ export function buildMetadata({
       url: absoluteUrl(href),
       siteName: SITE.title,
       locale: OG_LOCALE[locale],
+      alternateLocale: LOCALES.filter((l) => l !== locale).map((l) => OG_LOCALE[l]),
       title: pageTitle(locale, title),
       description: desc,
+      // 分享卡由 scripts/build-brand.mjs 从字标路径生成，不依赖构建机字体
+      images: [{ url: '/og.png', width: 1200, height: 630, alt: SITE.title }],
       ...(publishedTime ? { publishedTime } : {}),
       ...(tags?.length ? { tags } : {}),
     },
@@ -130,6 +133,7 @@ export function buildMetadata({
       card: 'summary_large_image',
       title: pageTitle(locale, title),
       description: desc,
+      images: ['/og.png'],
     },
   };
 }

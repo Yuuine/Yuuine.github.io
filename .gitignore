@@ -18,11 +18,12 @@
 /build
 /coverage
 
-# 品牌资产由 scripts/build-brand.mjs 从 src/lib/logo.mjs 生成，不入库
+# 品牌资产由 scripts/build-brand.mjs 从 src/lib/logo.mjs 与 wordmark.mjs 生成，不入库
 /public/logo.svg
 /public/favicon.svg
 /public/favicon.ico
 /public/apple-touch-icon.png
+/public/og.png
 
 # archify 的 visual-check 证据文件（截图与回执），可随时用 --json 重新生成
 docs/*.visual-check.*

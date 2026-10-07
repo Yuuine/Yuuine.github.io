@@ -443,6 +443,36 @@ html.is-dark-mode .icon-btn__moon {
   color: var(--c-faint);
 }
 
+/* 相关文章。给每篇一个回到主题簇的出口，也让爬虫看得见文章之间的关系 */
+.article__related {
+  margin-top: var(--sp-6);
+  padding-top: var(--sp-5);
+  border-top: var(--border-dotted);
+}
+
+.article__related-title {
+  margin-bottom: var(--sp-3);
+  font-family: var(--font-mono);
+  font-size: var(--fs-1);
+  font-weight: var(--fw-medium);
+  letter-spacing: var(--ls-wide);
+  text-transform: uppercase;
+  color: var(--c-faint);
+}
+
+.article__related ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: var(--sp-2);
+}
+
+.article__related li {
+  font-size: var(--fs-3);
+  line-height: 1.5;
+}
+
 /* 回到顶部：固定在右下，滚过一屏才出现 —— 短文章里它只会挡着正文 */
 .to-top {
   position: fixed;

@@ -5,7 +5,9 @@ import '@/styles/pages/home.css';
 import '@/styles/pages/inner.css';
 import SiteFooter from './SiteFooter';
 import SiteHeader from './SiteHeader';
+import JsonLd from './JsonLd';
 import { getDictionary, type Locale } from '@/lib/i18n';
+import { webSiteSchema } from '@/lib/schema';
 
 /**
  * 无闪烁主题脚本。
@@ -44,6 +46,7 @@ export default function SiteChrome({
 
   return (
     <>
+      <JsonLd data={webSiteSchema()} />
       <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       <a className="skip-link" href="#main">
         {dict.header.skip}

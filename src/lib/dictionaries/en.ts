@@ -53,6 +53,21 @@ export const en = {
     filterAll: (n: number) => `All ${n}`,
   },
 
+  categories: {
+    ai: 'AI',
+    java: 'Java',
+    devops: 'DevOps',
+    sql: 'SQL',
+    distributed: 'Distributed',
+  } as Record<string, string>,
+
+  category: {
+    eyebrow: 'Category',
+    all: 'All posts',
+    lead: (n: number) => `${n} posts.`,
+    description: (name: string, n: number) => `Every post filed under ${name} — ${n} in total.`,
+  },
+
   projects: {
     eyebrow: 'Projects',
     title: 'Projects',
@@ -75,6 +90,7 @@ export const en = {
     navAria: 'Previous and next post',
     prev: 'Previous',
     next: 'Next',
+    related: 'Related posts',
     translationNotice: 'This post is currently only available in Chinese.',
   },
 

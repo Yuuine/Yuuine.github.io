@@ -1,5 +1,5 @@
 import type { MetadataRoute } from 'next';
-import { getAllArticles } from '@/lib/articles';
+import { getAllArticles, getCategoryCounts } from '@/lib/articles';
 import { DEFAULT_LOCALE, PREFIXED_LOCALES } from '@/lib/i18n';
 import { SITE } from '@/lib/site';
 
@@ -23,7 +23,7 @@ const UI_ROUTES: ReadonlyArray<{ path: string; priority: number; changeFrequency
  * translated），所以这里只列中文那一条，不把副本喂给搜索引擎。
  */
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const articles = await getAllArticles();
+  const [articles, categories] = await Promise.all([getAllArticles(), getCategoryCounts()]);
   const locales = [DEFAULT_LOCALE, ...PREFIXED_LOCALES];
 
   const href = (locale: string, path: string) =>
@@ -40,12 +40,25 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     })),
   );
 
+  // 分类页是主题入口，和界面页一样在三种语言下各有一份
+  const categoryRoutes: MetadataRoute.Sitemap = categories.flatMap((c) =>
+    locales.map((locale) => ({
+      url: href(locale, `/category/${c.name}/`),
+      changeFrequency: 'weekly' as const,
+      priority: 0.7,
+      alternates: {
+        languages: Object.fromEntries(locales.map((l) => [l, href(l, `/category/${c.name}/`)])),
+      },
+    })),
+  );
+
   const articleRoutes: MetadataRoute.Sitemap = articles.map((a) => ({
     url: `${SITE.url}${a.permalink}`,
-    lastModified: new Date(a.date),
+    // 用 updated 而不是 date：改了老文章，sitemap 才会跟着动
+    lastModified: new Date(a.updated),
     changeFrequency: 'monthly',
     priority: 0.8,
   }));
 
-  return [...uiRoutes, ...articleRoutes];
+  return [...uiRoutes, ...categoryRoutes, ...articleRoutes];
 }

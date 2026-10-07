@@ -2,7 +2,7 @@
  * 从 src/lib/logo.mjs 的单一源生成 public/ 下全部品牌资产。
  *
  * 存在的理由：public/ 无法引用 src/，logo 路径若手工复制到多个文件，
- * 改一处必漏一处。这里让四个产物全部从同一常量派生，消除漂移。
+ * 改一处必漏一处。这里让全部产物都从同一常量派生，消除漂移。
  *
  * 由 package.json 的 predev / prebuild 自动触发，无需手动执行。
  */
@@ -18,6 +18,12 @@ import {
   LOGO_PATH,
   PAPER,
 } from '../src/lib/logo.mjs';
+import {
+  WORDMARK_DOT,
+  WORDMARK_LETTERS,
+  WORDMARK_STROKE,
+  WORDMARK_VIEW_BOX,
+} from '../src/lib/wordmark.mjs';
 
 const ROOT = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 const PUBLIC = path.join(ROOT, 'public');
@@ -38,6 +44,30 @@ const appleTouchSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 
   <rect width="180" height="180" fill="${PAPER}"/>
   <g transform="translate(90 90) scale(0.62) translate(-128 -127.5)">
     <path fill="${INK}" d="${LOGO_PATH}"/>
+  </g>
+</svg>
+`;
+
+/**
+ * 社交分享卡，1200×630 是各平台通用的 1.91:1。
+ *
+ * 卡片上不放任何文字：SVG 里的 <text> 由构建机的字体渲染，
+ * 而 CI 的 Linux 镜像不保证有中文字体，会渲染成方块。
+ * 这里用的是字标的路径数据，到哪都一样。
+ */
+const OG_W = 1200;
+const OG_H = 630;
+const OG_SCALE = 1.1;
+/** 字标 viewBox 的中心，用来把它摆到卡片正中 */
+const [wmX, wmY, wmW, wmH] = WORDMARK_VIEW_BOX.split(' ').map(Number);
+
+const ogSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${OG_W} ${OG_H}" width="${OG_W}" height="${OG_H}">
+  <rect width="${OG_W}" height="${OG_H}" fill="${PAPER}"/>
+  <g transform="translate(${OG_W / 2} ${OG_H / 2}) scale(${OG_SCALE}) translate(${-(wmX + wmW / 2)} ${-(wmY + wmH / 2)})">
+    <g fill="none" stroke="${INK}" stroke-width="${WORDMARK_STROKE}" stroke-linecap="round" stroke-linejoin="round">
+      ${WORDMARK_LETTERS.map((d) => `<path d="${d}"/>`).join('\n      ')}
+    </g>
+    <circle cx="${WORDMARK_DOT.cx}" cy="${WORDMARK_DOT.cy}" r="${WORDMARK_DOT.r}" fill="${INK}"/>
   </g>
 </svg>
 `;
@@ -100,6 +130,7 @@ const planned = [
     ),
   ],
   ['apple-touch-icon.png', await raster(appleTouchSvg, 180)],
+  ['og.png', await sharp(Buffer.from(ogSvg)).png().toBuffer()],
 ];
 
 const written = [];

@@ -50,6 +50,25 @@ export const zhCN = {
     filterAll: (n: number) => `全部 ${n}`,
   },
 
+  /**
+   * 分类的展示名。数据层是小写 slug（大小写不一致会让筛选对不上），
+   * 展示时按语言取这里的名字，取不到就退回 slug。
+   */
+  categories: {
+    ai: 'AI',
+    java: 'Java',
+    devops: 'DevOps',
+    sql: 'SQL',
+    distributed: '分布式',
+  } as Record<string, string>,
+
+  category: {
+    eyebrow: 'Category',
+    all: '全部文章',
+    lead: (n: number) => `共 ${n} 篇。`,
+    description: (name: string, n: number) => `${name} 分类下的全部文章，共 ${n} 篇。`,
+  },
+
   projects: {
     eyebrow: 'Projects',
     title: '项目',
@@ -72,6 +91,7 @@ export const zhCN = {
     navAria: '上下篇',
     prev: '上一篇',
     next: '下一篇',
+    related: '相关文章',
     translationNotice: '',
   },
 

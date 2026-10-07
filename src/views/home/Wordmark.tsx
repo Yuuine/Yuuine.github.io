@@ -3,7 +3,7 @@ import {
   WORDMARK_LETTERS,
   WORDMARK_STROKE,
   WORDMARK_VIEW_BOX,
-} from './wordmark-geometry';
+} from '@/lib/wordmark.mjs';
 
 /**
  * 首页字标。

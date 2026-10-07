@@ -126,7 +126,7 @@ export async function getArticleBySlug(slug: string): Promise<Article | undefine
   return all.find((a) => a.slug === slug);
 }
 
-/** 按分类聚合，供文章页筛选使用 */
+/** 按分类聚合，供文章页与分类页使用 */
 export async function getCategoryCounts(): Promise<{ name: string; count: number }[]> {
   const all = await getAllArticles();
   const counts = new Map<string, number>();
@@ -136,4 +136,19 @@ export async function getCategoryCounts(): Promise<{ name: string; count: number
   return [...counts.entries()]
     .map(([name, count]) => ({ name, count }))
     .sort((a, b) => b.count - a.count);
+}
+
+/**
+ * 相关文章：按共享标签数排序，同样多时先给新的。
+ * 一篇共享标签都没有就不返回 —— 硬凑出来的"相关"比没有更糟。
+ */
+export async function getRelatedArticles(article: Article, limit = 3): Promise<Article[]> {
+  const all = await getAllArticles();
+  return all
+    .filter((a) => a.permalink !== article.permalink)
+    .map((a) => ({ article: a, shared: a.tags.filter((t) => article.tags.includes(t)).length }))
+    .filter((entry) => entry.shared > 0)
+    .sort((a, b) => b.shared - a.shared || (a.article.date < b.article.date ? 1 : -1))
+    .slice(0, limit)
+    .map((entry) => entry.article);
 }
