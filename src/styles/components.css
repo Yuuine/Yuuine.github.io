@@ -348,11 +348,9 @@ html.is-dark-mode .icon-btn__moon {
 
 /* ==========================================================================
    文章页
+   正文那一列的宽度由外壳的网格轨道定（见 pages/docs.css），不在这里锁 ——
+   轨道是几列取决于左栏收没收起，这个组件自己决定不了
    ========================================================================== */
-
-.article {
-  padding-block: var(--sp-8);
-}
 
 .article__header {
   margin-bottom: var(--sp-7);
@@ -506,7 +504,9 @@ html.is-dark-mode .icon-btn__moon {
   display: none;
 }
 
-.toc__toggle {
+/* 折叠面板的开关。文章目录与文章区左栏共用一套外观 ——
+   两者的展开/收起语义相同，只有收起后停在屏幕哪一角不同，那部分各自写 */
+.collapse-toggle {
   display: flex;
   align-items: center;
   gap: var(--sp-2);
@@ -522,22 +522,18 @@ html.is-dark-mode .icon-btn__moon {
   color: var(--c-faint);
 }
 
-.toc__toggle:hover {
+.collapse-toggle:hover {
   color: var(--c-headline);
 }
 
-/* 收起时箭头转向。只动 transform —— 它走合成器 */
-.toc__chevron {
-  width: 0;
-  height: 0;
-  border-left: 4px solid transparent;
-  border-right: 4px solid transparent;
-  border-top: 5px solid currentColor;
-  transition: transform var(--dur-fast) var(--ease-out);
-}
-
-.toc__toggle[aria-expanded='false'] .toc__chevron {
-  transform: rotate(-90deg);
+/* 收起后面板整个让开，开关脱离栏体独自悬浮，得自己长成一个按钮 */
+.collapse-toggle[aria-expanded='false'] {
+  width: auto;
+  padding: var(--sp-2) var(--sp-3);
+  border: 1px solid var(--c-line);
+  border-radius: 999px;
+  background: var(--c-surface);
+  box-shadow: var(--shadow-sm);
 }
 
 .toc__list {
@@ -570,60 +566,8 @@ html.is-dark-mode .icon-btn__moon {
   background: color-mix(in srgb, var(--c-1st) 9%, transparent);
 }
 
-/* 宽屏：右侧多开一列给目录，正文列锁死在 --width-text 上 ——
-   目录不许挤压正文的可读宽度 */
-@media (min-width: 1120px) {
-  .article--with-toc {
-    width: min(94vw, calc(var(--width-text) + 15rem));
-    display: grid;
-    grid-template-columns: minmax(0, var(--width-text)) 1fr;
-    column-gap: var(--sp-7);
-    align-items: start;
-  }
-
-  /* 行号必须显式写：只写列号的话，main 的列号比游标小，
-     自动布局会按规范把行号 +1，两列就被拆成两行 */
-  .article--with-toc .article__main {
-    grid-column: 1;
-    grid-row: 1;
-  }
-
-  .article--with-toc .toc {
-    grid-column: 2;
-    grid-row: 1;
-    display: block;
-    position: sticky;
-    top: calc(var(--header-h) + var(--sp-5));
-    max-height: calc(100vh - var(--header-h) - var(--sp-8));
-    overflow-y: auto;
-  }
-
-  /* 收起侧栏：整列还给正文，正文回到居中；目录缩成右上角一个悬浮按钮，
-     否则收起来就再也打不开了。
-     状态取自按钮的 aria-expanded —— 布局要跟着子组件的状态走，
-     与其从子组件回头去改祖先的 class，不如让祖先自己看 */
-  .article--with-toc:has(.toc__toggle[aria-expanded='false']) {
-    width: min(94vw, var(--width-text));
-    grid-template-columns: minmax(0, var(--width-text));
-  }
-
-  .article--with-toc:has(.toc__toggle[aria-expanded='false']) .toc {
-    position: fixed;
-    top: calc(var(--header-h) + var(--sp-5));
-    right: var(--sp-5);
-    width: auto;
-    max-height: none;
-    overflow: visible;
-  }
-
-  .article--with-toc:has(.toc__toggle[aria-expanded='false']) .toc__toggle {
-    padding: var(--sp-2) var(--sp-3);
-    border: 1px solid var(--c-line);
-    border-radius: 999px;
-    background: var(--c-surface);
-    box-shadow: var(--shadow-sm);
-  }
-}
+/* 宽屏下面包目录的那一列由外壳安排，见 pages/docs.css —— 目录排不排得下
+   不只取决于视口，还取决于左栏收没收起，已经不是这个组件能独立决定的事 */
 
 @media (max-width: 640px) {
   .article__nav {
@@ -715,33 +659,6 @@ html.is-dark-mode .icon-btn__moon {
 
 .page-head h1 {
   margin-top: var(--sp-3);
-}
-
-.filter-bar {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--sp-2);
-  margin-top: var(--sp-5);
-}
-
-.filter-bar a {
-  padding: 0.3rem 0.75rem;
-  font-size: var(--fs-2);
-  color: var(--c-muted);
-  border: 1px solid var(--c-line);
-  border-radius: 999px;
-  transition: all var(--dur-fast) var(--ease-out);
-}
-
-.filter-bar a:hover {
-  color: var(--c-1st);
-  border-color: var(--c-1st);
-}
-
-.filter-bar a.is-active {
-  color: var(--c-1);
-  background: var(--c-1st);
-  border-color: var(--c-1st);
 }
 
 /* ==========================================================================

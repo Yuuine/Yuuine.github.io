@@ -44,13 +44,16 @@ export const en = {
   },
 
   articles: {
-    eyebrow: 'Articles',
     title: 'Articles',
     description:
       'Every note I have written: Java concurrency, distributed middleware, SQL, and AI engineering.',
-    lead: (n: number) => `${n} posts, newest first. These are things I actually ran into.`,
-    filterAria: 'Categories',
-    filterAll: (n: number) => `All ${n}`,
+  },
+
+  /** The articles shell. nav labels the left rail, toggle is the button that folds it away */
+  docs: {
+    nav: 'Article navigation',
+    toggle: 'Nav',
+    all: 'All articles',
   },
 
   categories: {
@@ -63,8 +66,6 @@ export const en = {
 
   category: {
     eyebrow: 'Category',
-    all: 'All posts',
-    lead: (n: number) => `${n} posts.`,
     description: (name: string, n: number) => `Every post filed under ${name} — ${n} in total.`,
   },
 

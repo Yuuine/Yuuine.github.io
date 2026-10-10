@@ -1,0 +1,272 @@
+/* ==========================================================================
+   文章区外壳
+   文章索引、分类页与文章页共用：左边是常驻的导航树，右边是正文。
+   路由组 (docs) 提供外壳，这里只负责它的形状。
+   ========================================================================== */
+
+.docs {
+  width: min(94vw, var(--width-docs));
+  margin-inline: auto;
+  padding-block: var(--sp-6) var(--sp-8);
+}
+
+/* 网格子项默认 min-width: auto，一段长代码或一个宽表格就能把主列撑破 */
+.docs__main {
+  min-width: 0;
+}
+
+/* 文档正文的阅读宽度。左栏与正文都靠左排 —— 这份手册的重心在左上，
+   不是居中一栏；右侧留给目录，没有目录的页面就留白 */
+.doc-body {
+  max-width: var(--width-text);
+}
+
+.doc-body .page-head {
+  padding-block: 0 var(--sp-6);
+}
+
+/* ---- 左栏 ---------------------------------------------------------------- */
+
+.docs-nav {
+  /* 窄屏时左栏是正文上方的一块，宽度跟着正文 —— 铺满 94vw 的话，
+     分组的三角标会被推到屏幕另一头，当前项的高亮条也横跨整屏 */
+  max-width: var(--width-text);
+  margin-bottom: var(--sp-6);
+}
+
+/* 一级的"全部文章"与二级的文章链接共用一条竖轨：负的 margin-left 让激活态的
+   2px 色条正好压在这条 1px 线上，与文章目录是同一套语汇 */
+.docs-nav__tree {
+  border-left: 1px solid var(--c-line);
+}
+
+.docs-nav__index,
+.docs-nav__link {
+  display: block;
+  padding: 0.3em var(--sp-3);
+  margin-left: -1px;
+  border-left: 2px solid transparent;
+  color: var(--c-muted);
+  font-size: var(--fs-2);
+  line-height: 1.5;
+  /* 激活态不加过渡：与 .toc__link 同理，滚动中动 color 会把整块祖先层每帧多拖 1.8ms */
+}
+
+.docs-nav__link:hover,
+.docs-nav__index:hover {
+  color: var(--c-headline);
+}
+
+.docs-nav__index {
+  font-weight: var(--fw-medium);
+  color: var(--c-headline);
+}
+
+.docs-nav__index.is-active,
+.docs-nav__link.is-active {
+  color: var(--c-1st);
+  border-left-color: var(--c-1st);
+  background: color-mix(in srgb, var(--c-1st) 9%, transparent);
+}
+
+.docs-nav__group {
+  margin-top: var(--sp-3);
+}
+
+/* 分组标签是开关而不是链接 —— 它得能收起自己那一组。分类页的入口不靠它：
+   索引页的分节标题、每篇文章信息行里的分类链接都已经指过去了 */
+.docs-nav__label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-2);
+  width: 100%;
+  padding: var(--sp-1) var(--sp-3);
+  border: 0;
+  background: none;
+  cursor: pointer;
+  text-align: left;
+  font-family: var(--font-mono);
+  font-size: var(--fs-1);
+  letter-spacing: var(--ls-wide);
+  text-transform: uppercase;
+  color: var(--c-faint);
+}
+
+.docs-nav__label:hover {
+  color: var(--c-headline);
+}
+
+/* 当前页所在的分组。分组默认是收起的，不标出来就没法知道该点哪一个 */
+.docs-nav__label.is-current {
+  color: var(--c-1st);
+}
+
+.docs-nav__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* ---- 索引页 / 分类页的链接列表 ------------------------------------------- */
+
+.doc-section + .doc-section {
+  margin-top: var(--sp-7);
+}
+
+.doc-section__title {
+  padding-bottom: var(--sp-2);
+  border-bottom: 1px solid var(--c-line);
+  font-size: var(--fs-4);
+}
+
+.doc-section__title a {
+  color: inherit;
+}
+
+.doc-section__title a:hover {
+  color: var(--c-1st);
+}
+
+.doc-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* 整行一个链接：日期跟着标题一起可点，不必去瞄那一小行字。
+   这里是一份导航而不是行内链接 —— 19 条全用主色会糊成一片，所以跟左栏取同一个
+   约定：平时中性色，只有悬停和"当前"才上色 */
+.doc-list__link {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--sp-4);
+  padding-block: var(--sp-2);
+  color: var(--c-text);
+}
+
+.doc-list__link:hover {
+  color: var(--c-1st);
+}
+
+.doc-list__date {
+  flex: none;
+  font-family: var(--font-mono);
+  font-size: var(--fs-1);
+  color: var(--c-faint);
+}
+
+/* ==========================================================================
+   左栏：窄屏是正文上方的一块，宽屏才成为常驻的侧栏
+   ========================================================================== */
+
+@media (min-width: 1200px) {
+  .docs {
+    display: grid;
+    grid-template-columns: var(--width-nav) minmax(0, 1fr);
+    column-gap: var(--sp-6);
+    align-items: start;
+  }
+
+  .docs-nav {
+    position: sticky;
+    top: calc(var(--header-h) + var(--sp-5));
+    max-height: calc(100vh - var(--header-h) - var(--sp-6));
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    margin-bottom: 0;
+  }
+
+  /* 收起：整列还给正文，开关缩到左上角悬浮 —— 否则收起来就再也打不开了。
+     状态读的是 <html data-nav>：外壳在 layout 里、开关在组件里，中间隔着组件
+     边界，只有写在 <html> 上的属性是两边都够得着的 */
+  html[data-nav='collapsed'] .docs {
+    grid-template-columns: minmax(0, var(--width-docs-main));
+    justify-content: center;
+  }
+
+  html[data-nav='collapsed'] .docs-nav {
+    position: fixed;
+    top: calc(var(--header-h) + var(--sp-5));
+    left: var(--sp-4);
+    z-index: 20;
+    max-height: none;
+    overflow: visible;
+  }
+
+  html[data-nav='collapsed'] .docs-nav__tree {
+    display: none;
+  }
+}
+
+/* ==========================================================================
+   文章页的列
+   --toc-cols 决定摆几列，轨道在容器里居中 —— 收起目录后正文要回到中间，
+   而不是缩成一列继续贴着左边。
+   目录"排不排得下"的条件是"左栏收起" 或 "视口 ≥1400"，一个或的关系，
+   而两者跨了不同的断点；重复整套声明去表达这个或，改一处就会漏另一处，
+   所以断点只给 --toc-cols / --toc-display 赋值，布局只写一遍。
+   ========================================================================== */
+
+.article {
+  --toc-cols: minmax(0, var(--width-text));
+  --toc-display: none;
+  display: grid;
+  grid-template-columns: var(--toc-cols);
+  justify-content: center;
+  column-gap: var(--sp-6);
+  align-items: start;
+}
+
+/* 行号必须显式写：只写列号的话，main 的列号比游标小，
+   自动布局会按规范把行号 +1，两列就被拆成两行 */
+.article__main {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.article .toc {
+  grid-column: 2;
+  grid-row: 1;
+  display: var(--toc-display);
+}
+
+@media (min-width: 1120px) {
+  /* 左栏收起，主列拿回整幅宽度（--width-docs-main 按 46 + 15rem 定的），
+     1120 就容得下正文 + 目录 */
+  html[data-nav='collapsed'] .article--with-toc {
+    --toc-cols: minmax(0, var(--width-text)) minmax(var(--width-toc), 1fr);
+    --toc-display: block;
+  }
+
+  .article .toc {
+    position: sticky;
+    top: calc(var(--header-h) + var(--sp-5));
+    max-height: calc(100vh - var(--header-h) - var(--sp-8));
+    overflow-y: auto;
+  }
+
+  /* 手动收起目录：整列还给正文，目录缩成右上角一个悬浮按钮。
+     放在最后，压过上面按宽度算出来的 --toc-cols */
+  .article:has(.collapse-toggle[aria-expanded='false']) {
+    grid-template-columns: minmax(0, var(--width-text));
+  }
+
+  .article:has(.collapse-toggle[aria-expanded='false']) .toc {
+    display: block;
+    position: fixed;
+    top: calc(var(--header-h) + var(--sp-5));
+    right: var(--sp-5);
+    max-height: none;
+    overflow: visible;
+  }
+}
+
+@media (min-width: 1400px) {
+  /* 左栏展开时它先吃掉 17rem，要这么宽才排得下三栏 */
+  .article--with-toc {
+    --toc-cols: minmax(0, var(--width-text)) minmax(var(--width-toc), 1fr);
+    --toc-display: block;
+  }
+}

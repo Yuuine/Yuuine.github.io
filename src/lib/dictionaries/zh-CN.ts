@@ -42,12 +42,15 @@ export const zhCN = {
   },
 
   articles: {
-    eyebrow: 'Articles',
     title: '文章',
     description: '全部技术笔记：Java 并发、分布式中间件、SQL 与 AI 工程实践。',
-    lead: (n: number) => `共 ${n} 篇。按时间倒序，写的是我实际踩过的东西。`,
-    filterAria: '分类',
-    filterAll: (n: number) => `全部 ${n}`,
+  },
+
+  /** 文章区外壳。nav 是左栏的无障碍名，toggle 是收起它那个按钮上的字 */
+  docs: {
+    nav: '文章导航',
+    toggle: '导航',
+    all: '全部文章',
   },
 
   /**
@@ -64,8 +67,6 @@ export const zhCN = {
 
   category: {
     eyebrow: 'Category',
-    all: '全部文章',
-    lead: (n: number) => `共 ${n} 篇。`,
     description: (name: string, n: number) => `${name} 分类下的全部文章，共 ${n} 篇。`,
   },
 

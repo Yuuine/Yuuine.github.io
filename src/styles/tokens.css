@@ -96,6 +96,12 @@
   --width-content: min(94vw, 1680px);
   --width-text: 46rem;      /* 正文可读宽度 */
   --width-wide: 78rem;
+  /* 文章区外壳。--width-docs-main 是左栏收起后主列的封顶宽度：
+     它必须容得下"正文 + 目录"（46 + 15rem 再加间距），否则收起左栏反而把目录挤没了 */
+  --width-docs: 88rem;
+  --width-docs-main: 64rem;
+  --width-nav: 17rem;       /* 左栏；它和 --width-toc 一起决定三栏的断点 */
+  --width-toc: 15rem;       /* 文章目录 */
   --radius-sm: 3px;
   --radius: 6px;
   --radius-lg: 14px;

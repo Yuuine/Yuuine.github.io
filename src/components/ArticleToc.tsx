@@ -136,12 +136,12 @@ export default function ArticleToc({ items, label }: { items: TocItem[]; label: 
     <nav className="toc" aria-label={label} ref={ref}>
       <button
         type="button"
-        className="toc__toggle"
+        className="collapse-toggle"
         aria-expanded={open}
         onClick={() => setOpen((v) => !v)}
       >
         {label}
-        <span className="toc__chevron" aria-hidden="true" />
+        <span className="caret" aria-hidden="true" />
       </button>
 
       {open && (

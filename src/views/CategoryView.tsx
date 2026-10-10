@@ -1,6 +1,6 @@
 import Link from 'next/link';
-import ArticleCard from '@/components/ArticleCard';
 import { getAllArticles } from '@/lib/articles';
+import { formatDate } from '@/lib/format';
 import { getDictionary, localeHref, type Locale } from '@/lib/i18n';
 
 /**
@@ -22,24 +22,22 @@ export default async function CategoryView({
   const articles = (await getAllArticles()).filter((a) => a.categories.includes(slug));
 
   return (
-    <div className="container">
+    <div className="doc-body">
       <header className="page-head">
         <p className="eyebrow">{dict.category.eyebrow}</p>
         <h1>{name}</h1>
-        <p className="lead">{dict.category.lead(articles.length)}</p>
-        <p className="filter-bar">
-          <Link href={localeHref(locale, '/articles/')}>{dict.category.all}</Link>
-        </p>
       </header>
 
-      <ul className="card-grid" style={{ paddingBottom: 'var(--sp-8)' }}>
+      <ul className="doc-list">
         {articles.map((a) => (
-          <ArticleCard
-            key={a.permalink}
-            article={a}
-            locale={locale}
-            minutesLabel={dict.common.minutes(a.minutes)}
-          />
+          <li key={a.permalink}>
+            <Link className="doc-list__link" href={localeHref(locale, a.permalink)}>
+              <span className="doc-list__title">{a.title}</span>
+              <time className="doc-list__date" dateTime={a.date}>
+                {formatDate(a.date)}
+              </time>
+            </Link>
+          </li>
         ))}
       </ul>
     </div>

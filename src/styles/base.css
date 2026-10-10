@@ -184,6 +184,23 @@ input:focus-visible,
   margin-top: var(--sp-4);
 }
 
+/* 可折叠面板的三角标。转不转只看直接父元素上的 aria-expanded ——
+   父元素就是那个开关按钮，所以这里不需要知道开关长什么样、叫什么名字，
+   面板各自的外观与它无关 */
+.caret {
+  flex: none;
+  width: 0;
+  height: 0;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 5px solid currentColor;
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+
+[aria-expanded='false'] > .caret {
+  transform: rotate(-90deg);
+}
+
 /* 小标签：区块标题上方的全大写引导词 */
 .eyebrow {
   display: inline-flex;

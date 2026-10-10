@@ -39,12 +39,15 @@ export const zhTW = {
   },
 
   articles: {
-    eyebrow: 'Articles',
     title: '文章',
     description: '全部技術筆記：Java 並行、分散式中介軟體、SQL 與 AI 工程實踐。',
-    lead: (n: number) => `共 ${n} 篇。依時間倒序，寫的是我實際踩過的坑。`,
-    filterAria: '分類',
-    filterAll: (n: number) => `全部 ${n}`,
+  },
+
+  /** 文章區外殼。nav 是左欄的無障礙名，toggle 是收起它那個按鈕上的字 */
+  docs: {
+    nav: '文章導覽',
+    toggle: '導覽',
+    all: '全部文章',
   },
 
   categories: {
@@ -57,8 +60,6 @@ export const zhTW = {
 
   category: {
     eyebrow: 'Category',
-    all: '全部文章',
-    lead: (n: number) => `共 ${n} 篇。`,
     description: (name: string, n: number) => `${name} 分類下的全部文章，共 ${n} 篇。`,
   },
 

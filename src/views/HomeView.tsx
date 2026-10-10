@@ -1,6 +1,6 @@
 import Link from 'next/link';
+import ArticleCard from '@/components/ArticleCard';
 import { getAllArticles } from '@/lib/articles';
-import { formatDate } from '@/lib/format';
 import { getDictionary, localeHref, type Locale } from '@/lib/i18n';
 import Hero from './home/Hero';
 
@@ -27,21 +27,12 @@ export default async function HomeView({ locale }: { locale: Locale }) {
 
           <ul className="card-grid">
             {featured.map((a) => (
-              <li key={a.permalink}>
-                <Link className="card" href={localeHref(locale, a.permalink)}>
-                  <div className="card__meta">
-                    <time dateTime={a.date}>{formatDate(a.date)}</time>
-                    <span className="card__dot" />
-                    <span>{a.categories.join(' / ')}</span>
-                  </div>
-                  <h3 className="card__title">{a.title}</h3>
-                  <p className="card__desc">{a.description}</p>
-                  <div className="card__foot">
-                    <span>{dict.common.minutes(a.minutes)}</span>
-                    <span className="card__tags">{a.tags.slice(0, 3).join(' · ')}</span>
-                  </div>
-                </Link>
-              </li>
+              <ArticleCard
+                key={a.permalink}
+                article={a}
+                locale={locale}
+                minutesLabel={dict.common.minutes(a.minutes)}
+              />
             ))}
           </ul>
         </section>
